@@ -7,7 +7,7 @@ import asyncio
 cogsfolder = "cogs"
 
 #get bot token from file
-token = open("token", "r").readline()
+token = open("token.yml", "r").readline()
 
 client = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 logging.basicConfig(level=logging.ERROR)

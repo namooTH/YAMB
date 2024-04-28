@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.ERROR)
 
 @client.command(name="sync") 
 async def sync(ctx):
-    synced = await ctx.bot.tree.sync(guild=ctx.guild)
+    synced = await client.tree.sync()
     print(f"Synced {len(synced)} command(s).")
 
 @client.event

@@ -1,7 +1,7 @@
 import discord
+from discord.ext import commands
 import os
 import logging
-from discord.ext import commands
 import asyncio
 
 cogsfolder = "cogs"
@@ -11,6 +11,11 @@ token = open("token.yml", "r").readline()
 
 client = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 logging.basicConfig(level=logging.ERROR)
+
+@client.command(name="sync") 
+async def sync(ctx):
+    synced = await client.tree.sync()
+    print(f"Synced {len(synced)} command(s).")
 
 @client.event
 async def on_ready():

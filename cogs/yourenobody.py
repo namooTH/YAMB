@@ -22,10 +22,10 @@ class yourenobody(commands.Cog):
                 self.cooldowns[time] = int(file)
         self.cooldowns = dict(sorted(self.cooldowns.items()))
 
-    @tasks.loop(seconds=60)
+    @tasks.loop(seconds=30)
     async def check_time(self):
-        if len(self.cooldowns) >= 1: 
-            if next(iter(self.cooldowns)) - time.time() < -172800: # 2 days
+        if len(self.cooldowns) >= 1:
+            if next(iter(self.cooldowns)) - time.time() < -172800: # 2 days 
                 usr_id = self.cooldowns[next(iter(self.cooldowns))]
                 guild = self.bot.get_guild(self.guildid)
                 usr = guild.get_member(usr_id)

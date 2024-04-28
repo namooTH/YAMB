@@ -29,12 +29,15 @@ class randomquote(commands.Cog):
     async def on_message(self, message):
         if message.content == "aq":
             messager = await message.channel.fetch_message(message.reference.message_id)
-            if messager.content == "":
+            if messager.content == "" and not messager.attachments:
                 return await message.channel.send("its just an empty text you idiot", reference=message)
             if messager.author == self.bot.user:
                 return
+            content = messager.content
+            if messager.attachments:
+                content += (f"\n{messager.attachments[0]}")
             data = json.load(open("data/quote.json"))
-            data[messager.content] = messager.author.name
+            data[content] = messager.author.name
             json.dump(data, open("data/quote.json", 'w'))
             await message.channel.send(f"added `{messager.content}` by `{messager.author.name}`", reference=message)
 

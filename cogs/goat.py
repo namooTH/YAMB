@@ -2,6 +2,7 @@ import discord
 import praw
 from discord.ext import commands
 from discord import app_commands
+import random
 
 class goat(commands.Cog):
     def __init__(self, bot):
@@ -18,8 +19,11 @@ class goat(commands.Cog):
 
     @app_commands.command(name="goat", description="gets random goat")
     async def goat(self, interaction: discord.Interaction):
-        memes_submissions = self.reddit.subreddit('memes').hot()
-        print(memes_submissions)
+        sub = self.reddit.subreddit('goats').new()
+        post_to_pick = random.randint(1, 100)
+        for i in range(0, post_to_pick):
+            submission = next(x for x in sub if not x.stickied)
+        await interaction.response.send_message(submission.url)
         #await interaction.response.send_message("i kissed your mom last night!!!")
 
 

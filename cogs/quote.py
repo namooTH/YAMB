@@ -48,7 +48,7 @@ class randomquote(commands.Cog):
                 return await message.channel.send("ur not the author of that message :)", reference=message)
             content = messager.content
             if messager.attachments:
-                content = (f"{content}\n{messager.attachments[0].url}")
+                content = (f"{content} | {messager.attachments[0].url}")
             data = json.load(open("data/quote.json"))
             if data[content] != message.author.name:
                 return await message.channel.send("u dont own that quote", reference=message)

@@ -7,7 +7,6 @@ from discord.ext import tasks
 class goat(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.check_time.start()
 
     @commands.command()
     async def sync(self, ctx) -> None:

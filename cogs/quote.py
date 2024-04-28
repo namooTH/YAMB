@@ -25,13 +25,15 @@ class randomquote(commands.Cog):
             json.dump(data, open("data/quote.json", 'w'))
             await interaction.response.send_message(f"added {quote} by {by}")
 
-    @commands.command() 
-    async def aq(self, ctx):
-        message = await ctx.channel.fetch_message(ctx.message.reference.message_id)
-        data = json.load(open("data/quote.json"))
-        data[message.content] = message.author.name
-        json.dump(data, open("data/quote.json", 'w'))
-        await ctx.send(f"added {message.content} by {message.author.name}", reference=ctx.message)
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        if message.content == "aq":
+            messager = await message.channel.fetch_message(message.reference.message_id)
+            data = json.load(open("data/quote.json"))
+            data[messager.content] = messager.author.name
+            json.dump(data, open("data/quote.json", 'w'))
+            await message.channel.send(f"added {messager.content} by {messager.author.name}", reference=message)
+
 
 
 async def setup(bot):

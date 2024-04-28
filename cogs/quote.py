@@ -27,6 +27,9 @@ class randomquote(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
+        if message.author == self.user:
+            return
+
         if message.content == "aq":
             messager = await message.channel.fetch_message(message.reference.message_id)
             data = json.load(open("data/quote.json"))

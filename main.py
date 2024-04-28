@@ -20,7 +20,7 @@ async def sync(ctx):
 
 @client.command() 
 async def say(ctx, arg): 
-    await ctx.send(arg, allowed_mentions=discord.AllowedMentions(None))
+    await ctx.send(arg, allowed_mentions=discord.AllowedMentions.none())
     await ctx.message.delete()
 
 @client.event

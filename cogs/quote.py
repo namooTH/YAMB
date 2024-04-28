@@ -3,7 +3,7 @@ import praw
 from discord.ext import commands
 from discord.ext.commands import has_permissions, CheckFailure
 from discord import app_commands
-import random
+import json
 
 class randomquote(commands.Cog):
     def __init__(self, bot):
@@ -17,11 +17,14 @@ class randomquote(commands.Cog):
             await interaction.response.send_message("u have it")
 
     @app_commands.command(name="addquote", description="add a quote")
-    async def addquote(self, interaction: discord.Interaction):
+    async def addquote(self, interaction: discord.Interaction, quote: str, by: str):
         if not interaction.user.guild_permissions.manage_messages:
-            await interaction.response.send_message("u dont have manage message role")
+            await interaction.response.send_message("u dont have manage message permission",ephemeral=True)
         else:
-            await interaction.response.send_message("u have it")
+            data = json.load(open("data/quote.json"))
+            data[quote] = by
+            json.dump(data, open("data/quote.json", 'w'))
+            
 
 
 async def setup(bot):

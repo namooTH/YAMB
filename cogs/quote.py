@@ -35,11 +35,11 @@ class randomquote(commands.Cog):
                 return
             content = messager.content
             if messager.attachments:
-                content = (content + " " + messager.attachments[0].url)
+                content = (f"{content}\n{messager.attachments[0].url}")
             data = json.load(open("data/quote.json"))
             data[content] = messager.author.name
             json.dump(data, open("data/quote.json", 'w'))
-            await message.channel.send(f"added `{messager.content}` by `{messager.author.name}`", reference=message)
+            await message.channel.send(f"added `{content}` by `{messager.author.name}`", reference=message)
 
 async def setup(bot):
     await bot.add_cog(randomquote(bot))

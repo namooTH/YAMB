@@ -14,8 +14,14 @@ logging.basicConfig(level=logging.ERROR)
 
 @client.command(name="sync") 
 async def sync(ctx):
-    synced = await client.tree.sync()
-    print(f"Synced {len(synced)} command(s).")
+    if ctx.author.id == 899113384660844634: # add ur own id 
+        synced = await client.tree.sync()
+        print(f"Synced {len(synced)} command(s).")
+
+@client.command() 
+async def say(ctx, arg): 
+    await ctx.send(arg)
+    await ctx.message.delete()
 
 @client.event
 async def on_ready():

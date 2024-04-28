@@ -27,7 +27,7 @@ class randomquote(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        if message.author == self.user:
+        if message.author == self.bot.user:
             return
 
         if message.content == "aq":

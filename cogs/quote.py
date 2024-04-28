@@ -13,7 +13,7 @@ class randomquote(commands.Cog):
     @app_commands.command(name="random_quote", description="get random quote")
     async def quote(self, interaction: discord.Interaction):
         data = json.load(open("data/quote.json"))
-        quote = data[list(data)[random.randint(0, len(list(data)))]]
+        quote = data[list(data)[random.randint(0, len(list(data)) - 1)]]
         print(quote)
         if not interaction.author.guild_permissions.manage_messages:
             await interaction.response.send_message("u dont have manage message role")

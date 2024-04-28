@@ -18,7 +18,7 @@ class randomquote(commands.Cog):
 
     @app_commands.command(name="addquote", description="add a quote")
     async def addquote(self, interaction: discord.Interaction):
-        if not interaction.author.guild_permissions.manage_messages:
+        if not interaction.user.guild_permissions.manage_messages:
             await interaction.response.send_message("u dont have manage message role")
         else:
             await interaction.response.send_message("u have it")

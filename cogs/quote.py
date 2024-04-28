@@ -39,7 +39,8 @@ class randomquote(commands.Cog):
             data = json.load(open("data/quote.json"))
             data[content] = messager.author.name
             json.dump(data, open("data/quote.json", 'w'))
-            await message.channel.send(f"added `{content}` by `{messager.author.name}`", reference=message)
+            embed=discord.Embed(title="Quote Added", description='"{content}"\n\nby {messager.author.name}', color=0x57e389)
+            await message.channel.send(embed=embed, reference=message)
 
 async def setup(bot):
     await bot.add_cog(randomquote(bot))

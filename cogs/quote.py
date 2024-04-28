@@ -23,8 +23,15 @@ class randomquote(commands.Cog):
             data = json.load(open("data/quote.json"))
             data[quote] = by
             json.dump(data, open("data/quote.json", 'w'))
-            await interaction.response.send_message(f"added {quote} by {by}",ephemeral=True)
-            
+            await interaction.response.send_message(f"added {quote} by {by}")
+
+    @commands.command() 
+    async def aq(self, ctx):
+        message = await ctx.channel.fetch_message(ctx.message.reference.message_id)
+        data = json.load(open("data/quote.json"))
+        data[message.content] = message.author.name
+        json.dump(data, open("data/quote.json", 'w'))
+        await ctx.send(f"added {message.content} by {message.author.name}", reference=ctx.message)
 
 
 async def setup(bot):

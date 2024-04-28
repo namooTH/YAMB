@@ -34,11 +34,8 @@ class randomquote(commands.Cog):
             if messager.author == self.bot.user:
                 return
             content = messager.content
-
-            print(messager.attachments)
-
             if messager.attachments:
-                content += (f"\n{messager.attachments[0]}")
+                content += (f"\n{messager.attachments[0].url}")
             data = json.load(open("data/quote.json"))
             data[content] = messager.author.name
             json.dump(data, open("data/quote.json", 'w'))

@@ -13,7 +13,7 @@ class goat(commands.Cog):
         
     @app_commands.command(name="goat", description="gets random goat")
     async def goat(self, interaction: discord.Interaction):
-        sub = self.reddit.subreddit('goats').new()
+        sub = self.reddit.subreddit('ralsei').new()
         post_to_pick = random.randint(1, 100)
         for i in range(0, post_to_pick):
             submission = next(x for x in sub if not x.stickied)

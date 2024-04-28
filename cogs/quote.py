@@ -41,6 +41,18 @@ class randomquote(commands.Cog):
             json.dump(data, open("data/quote.json", 'w'))
             embed=discord.Embed(title="Quote Added", description=f'"{content}"\n\nby {messager.author.name}', color=0x57e389)
             await message.channel.send(embed=embed, reference=message)
+        if message.content == "dq":
+            messager = await message.channel.fetch_message(message.reference.message_id)
+            if messager.author != message.author:
+                return await message.channel.send("ur not the author of that message :)", reference=message)
+            content = messager.content
+            if messager.attachments:
+                content = (f"{content}\n{messager.attachments[0].url}")
+            data = json.load(open("data/quote.json"))
+            data.pop(content)
+            json.dump(data, open("data/quote.json", 'w'))
+            embed=discord.Embed(title="Quote Deleted", description=f'{message.author.name} deleted it :)', color=0x57e389)
+            await message.channel.send(embed=embed, reference=message)
 
 async def setup(bot):
     await bot.add_cog(randomquote(bot))

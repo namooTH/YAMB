@@ -35,7 +35,8 @@ class randomquote(commands.Cog):
                 return
             content = messager.content
             if messager.attachments:
-                content = (f"{content}\n{messager.attachments[0].url}")
+                print(messager.attachments[0].url)
+                content = (f"{content}")
             data = json.load(open("data/quote.json"))
             data[content] = messager.author.name
             json.dump(data, open("data/quote.json", 'w'))

@@ -13,12 +13,9 @@ class randomquote(commands.Cog):
     @app_commands.command(name="random_quote", description="get random quote")
     async def quote(self, interaction: discord.Interaction):
         data = json.load(open("data/quote.json"))
-        quote = data[list(data)[random.randint(0, len(list(data)) - 1)]]
-        print(quote)
-        if not interaction.author.guild_permissions.manage_messages:
-            await interaction.response.send_message("u dont have manage message role")
-        else:
-            await interaction.response.send_message("u have it")
+        quote = list(data)[random.randint(0, len(list(data)) - 1)]
+        author = data[quote]
+        await interaction.response.send_message(f'# **"{quote}"**\n### `- {author}`')
 
     @app_commands.command(name="addquote", description="add a quote")
     async def addquote(self, interaction: discord.Interaction, quote: str, by: str):

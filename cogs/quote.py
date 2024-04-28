@@ -27,11 +27,10 @@ class randomquote(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        if message.author.id == self.bot.user.id:
-            return
-
         if message.content == "aq":
             messager = await message.channel.fetch_message(message.reference.message_id)
+            if messager.author == self.bot.user:
+                return
             data = json.load(open("data/quote.json"))
             data[messager.content] = messager.author.name
             json.dump(data, open("data/quote.json", 'w'))

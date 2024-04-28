@@ -50,7 +50,7 @@ class randomquote(commands.Cog):
             if messager.attachments:
                 content = (f"{content}\n{messager.attachments[0].url}")
             data = json.load(open("data/quote.json"))
-            if data[content] != message.author:
+            if data[content] != message.author.name:
                 return await message.channel.send("u dont own that quote", reference=message)
             try:
                 data.pop(content)

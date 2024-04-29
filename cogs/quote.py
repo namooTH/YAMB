@@ -13,7 +13,7 @@ class randomquote(commands.Cog):
         data = json.load(open("data/quote.json"))
         quote = list(data)[random.randint(0, len(list(data)) - 1)]
         author = data[quote]
-        await interaction.response.send_message(f'# "{quote}"\n### `- {author}`', allowed_mentions=discord.AllowedMentions.none())
+        await interaction.response.send_message(f'"{quote}"\n### `- {author}`', allowed_mentions=discord.AllowedMentions.none())
 
     @app_commands.command(name="addquote", description="add a quote")
     async def addquote(self, interaction: discord.Interaction, quote: str, by: str):

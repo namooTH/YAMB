@@ -1,6 +1,5 @@
 import discord
 from discord.ext import commands
-from discord import app_commands
 
 from io import BytesIO
 import requests
@@ -48,7 +47,6 @@ class textbox(commands.Cog):
             image_binary.seek(0)
             return discord.File(fp=image_binary, filename='image.png')
 
-
     @commands.Cog.listener()
     async def on_message(self, message):
         if message.author == self.bot.user:
@@ -57,7 +55,6 @@ class textbox(commands.Cog):
             image = await self.generatetextbox(avatarurl=message.author.avatar.url, text=message.content)
             await message.channel.send(file=image)
             await message.delete()
-
 
 async def setup(bot):
     await bot.add_cog(textbox(bot))

@@ -75,8 +75,8 @@ class textbox(commands.Cog):
             await message.channel.send(file=image)
             await message.delete()
 
-    @app_commands.command(name="addquote", description="add a quote")
-    async def addquote(self, interaction: discord.Interaction, portrait: discord.Attachment, name: str, text: str):
+    @app_commands.command(name="textbox", description="makes a textbox")
+    async def textbox(self, interaction: discord.Interaction, portrait: discord.Attachment, name: str, text: str):
         image = await self.generatetextbox(avatarurl=portrait.url, text=text, name=name)
         await interaction.response.send_message(file=image)
 

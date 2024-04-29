@@ -27,7 +27,7 @@ class randomquote(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        if message.content == "aq" or message.content == "<@949479338275913799>":
+        if message.content == "aq".lower() or message.content == "<@949479338275913799>":
             messager = await message.channel.fetch_message(message.reference.message_id)
             if messager.content == "" and not messager.attachments:
                 return await message.channel.send("its just an empty text you idiot", reference=message)
@@ -54,7 +54,7 @@ class randomquote(commands.Cog):
                 return await message.channel.send("u dont own that quote", reference=message)
             try:
                 data.pop(content)
-            except:
+            except:  # noqa: E722
                 return await message.channel.send("quote doesnt exist in the database", reference=message)
             json.dump(data, open("data/quote.json", 'w'))
             embed=discord.Embed(title="Quote Deleted", description=f'{message.author.name} deleted it', color=0x57e389)

@@ -20,7 +20,10 @@ class textbox(commands.Cog):
 
         port = Image.open(BytesIO(requests.get(avatarurl).content))
         port = port.resize((134,134), resample=Image.Resampling.NEAREST)
-        img.paste(port, (16,16), port)
+        try:
+            img.paste(port, (16,16), port)
+        except:  # noqa: E722
+            img.paste(port, (16,16))
 
         draw = ImageDraw.Draw(img)
         font = ImageFont.truetype("data/textbox/dtmono.ttf", 30)

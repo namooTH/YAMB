@@ -112,7 +112,7 @@ class textbox(commands.Cog):
     @app_commands.command(name="textbox", description="makes a textbox")
     @app_commands.choices(animated=[app_commands.Choice(name="Yes", value="true"),app_commands.Choice(name="No", value="false")])
     async def textbox(self, interaction: discord.Interaction, portrait: discord.Attachment, name: Optional[str], text: str, animated: Optional[app_commands.Choice[str]]):
-        if animated.value == "true":
+        if animated and animated.value == "true":
             image = await self.generatetextbox(avatarurl=portrait.url, text=text, name=name, animated=True)
         else:
             image = await self.generatetextbox(avatarurl=portrait.url, text=text, name=name, animated=None)

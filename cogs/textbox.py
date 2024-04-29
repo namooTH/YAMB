@@ -12,7 +12,7 @@ class textbox(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    async def generatetextbox(self, avatarurl, text):
+    async def generatetextbox(self, avatarurl, text, name):
         border = Image.open("data/textbox/dt.png")
         img = Image.open("data/textbox/dtbg.png")
 
@@ -25,6 +25,7 @@ class textbox(commands.Cog):
         textpos = 155
         textposlimit = 565
         lines = []
+
         while True:
             nextline = ""
             if textpos + font.getlength(text) < textposlimit:
@@ -33,13 +34,28 @@ class textbox(commands.Cog):
             while textpos + font.getlength(text) >= textposlimit:
                 nextline += text[-1] # <--
                 text = text[:-1] # <--
+            # detect if space is presented in the last 4 chars
+            for num in range(1, 4):
+                if text[-num] == " ":
+                    nextline = nextline + text[-num:][1:][::-1] # looks cursed but it needs to be reverse
+                    text = text[:-num]
+                    break
             lines.append(text)
             #[::-1] = reverse the string since we are reading from the back
             text = nextline[::-1]
 
         # assemble
+        text = ""
         for line in range(len(lines)):
-            draw.text((textpos, 30 * (line + 1)),lines[line],(255,255,255),font=font)
+            text += lines[line] + "\n"
+        draw.text((textpos, 30),text,(255,255,255),font=font)
+
+        # nametag
+        font = ImageFont.truetype("dtmono.ttf", 16)
+        namepos = ((165 - font.getlength(name)) / 2, 130)
+        draw.text((namepos[0] + 2, namepos[1] + 2),name,(0,0,0),font=font)
+        draw.text(namepos,name,(255,255,255),font=font)
+
         img.paste(border, (0, 0), border)
 
         with BytesIO() as image_binary:
@@ -52,7 +68,7 @@ class textbox(commands.Cog):
         if message.author == self.bot.user:
             return
         if message.channel.id == 1234430787924000778:
-            image = await self.generatetextbox(avatarurl=message.author.avatar.url, text=message.content)
+            image = await self.generatetextbox(avatarurl=message.author.avatar.url, text=message.content, name=message.author.name)
             await message.channel.send(file=image)
             await message.delete()
 

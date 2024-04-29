@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord import app_commands
 
 from io import BytesIO
 import requests
@@ -73,6 +74,11 @@ class textbox(commands.Cog):
             image = await self.generatetextbox(avatarurl=message.author.avatar.url, text=message.clean_content, name=message.author.name)
             await message.channel.send(file=image)
             await message.delete()
+
+    @app_commands.command(name="addquote", description="add a quote")
+    async def addquote(self, interaction: discord.Interaction, portrait: discord.Attachment, name: str, text: str):
+        image = await self.generatetextbox(avatarurl=portrait.url, text=text, name=name)
+        await interaction.response.send_message(file=image)
 
 async def setup(bot):
     await bot.add_cog(textbox(bot))

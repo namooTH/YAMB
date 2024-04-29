@@ -74,6 +74,14 @@ class textbox(commands.Cog):
             image = await self.generatetextbox(avatarurl=message.author.avatar.url, text=message.clean_content, name=message.author.name)
             await message.channel.send(file=image)
             await message.delete()
+        if message.content.lower() == "mtbq":
+            messager = await message.channel.fetch_message(message.reference.message_id)
+            if messager.content == "":
+                return await message.channel.send("cant", reference=message)
+            if messager.author == self.bot.user:
+                return
+            image = await self.generatetextbox(avatarurl=messager.author.avatar.url, text=messager.content, name=messager.author.name)
+            await message.channel.send(file=image, reference=message)
 
     @app_commands.command(name="textbox", description="makes a textbox")
     async def textbox(self, interaction: discord.Interaction, portrait: discord.Attachment, name: str, text: str):

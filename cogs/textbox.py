@@ -73,7 +73,7 @@ class textbox(commands.Cog):
         if message.author == self.bot.user:
             return
         if message.channel.id == 1234430787924000778:
-            image = await self.generatetextbox(avatarurl=message.author.avatar.url, text=message.clean_content, name=message.author.name)
+            image = await self.generatetextbox(avatarurl=message.author.avatar.url, text=message.clean_content, name=None)
             await message.channel.send(file=image)
             await message.delete()
         if message.content.lower() == "mtbq":

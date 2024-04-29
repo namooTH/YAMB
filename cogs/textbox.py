@@ -82,8 +82,6 @@ class textbox(commands.Cog):
                 image_binary.seek(0)
                 return discord.File(fp=image_binary, filename='image.gif')
         else:
-            for line in range(len(lines)):
-                text += lines[line] + "\n"
             draw.text((textpos, 30),text,(255,255,255),font=font)
             with BytesIO() as image_binary:
                 img.save(image_binary, 'PNG')

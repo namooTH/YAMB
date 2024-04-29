@@ -75,7 +75,7 @@ class textbox(commands.Cog):
                 draw = ImageDraw.Draw(temp)
                 draw.text((textpos, 30),drawtext,(255,255,255),font=font)
                 images.append(temp.copy())
-            for frame in range(24): # pauses
+            for frame in range(64): # pauses
                 images.append(images[-1])
             with BytesIO() as image_binary:
                 images[0].save(image_binary, 'GIF', save_all=True,append_images=images[1:],duration=70,loop=0)

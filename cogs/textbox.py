@@ -34,7 +34,7 @@ class textbox(commands.Cog):
             while textpos + font.getlength(text) >= textposlimit:
                 nextline += text[-1] # <--
                 text = text[:-1] # <--
-            # detect if space is presented in the last 4 chars
+            # detect if space is presented in the last 10 chars
             for num in range(1, 10):
                 if text[-num] == " ":
                     nextline = nextline + text[-num:][::-1] # looks cursed but it needs to be reverse

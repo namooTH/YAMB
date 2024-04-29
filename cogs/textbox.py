@@ -51,7 +51,7 @@ class textbox(commands.Cog):
         draw.text((textpos, 30),text,(255,255,255),font=font)
 
         # nametag
-        font = ImageFont.truetype("dtmono.ttf", 16)
+        font = ImageFont.truetype("data/dtmono.ttf", 16)
         namepos = ((165 - font.getlength(name)) / 2, 130)
         draw.text((namepos[0] + 2, namepos[1] + 2),name,(0,0,0),font=font)
         draw.text(namepos,name,(255,255,255),font=font)

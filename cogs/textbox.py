@@ -54,6 +54,7 @@ class textbox(commands.Cog):
         if message.author == self.bot.user:
             return
         if message.author.id == 899113384660844634:
+            print(message.author.avatar.url)
             image = await self.generatetextbox(avatarurl=message.author.avatar.url[0], text=message.content)
             await message.channel.send(file=image)
 

@@ -14,14 +14,15 @@ class textbox(commands.Cog):
         self.bot = bot
 
     async def generatetextbox(self, avatarurl, text):
-        img = Image.open("dtbg.png")
+        border = Image.open("data/textbox/dt.png")
+        img = Image.open("data/textbox/dtbg.png")
 
         port = Image.open(BytesIO(requests.get(avatarurl).content))
         port = port.resize((134,134), resample=Image.Resampling.NEAREST)
         img.paste(port, (16,16))
 
         draw = ImageDraw.Draw(img)
-        font = ImageFont.truetype("dtmono.ttf", 30)
+        font = ImageFont.truetype("data/textbox/dtmono.ttf", 30)
         textpos = 155
         textposlimit = 565
         lines = []
@@ -40,7 +41,6 @@ class textbox(commands.Cog):
         # assemble
         for line in range(len(lines)):
             draw.text((textpos, 30 * (line + 1)),lines[line],(255,255,255),font=font)
-        border = Image.open("dt.png")
         img.paste(border, (0, 0), border)
 
         with BytesIO() as image_binary:

@@ -30,7 +30,7 @@ class baby(commands.Cog):
         allchances = 0
         chances = 0
 
-        for i in open("names.txt", "r").readlines():
+        for i in open("data/names.txt", "r").readlines():
             name = i.replace("\n", "").lower()
             try:
                 if name[0].lower() == babyname[0].lower():

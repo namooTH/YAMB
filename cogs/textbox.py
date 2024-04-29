@@ -35,14 +35,14 @@ class textbox(commands.Cog):
                 nextline += text[-1] # <--
                 text = text[:-1] # <--
             # detect if space is presented in the last 4 chars
-            for num in range(1, 4):
+            for num in range(1, 10):
                 if text[-num] == " ":
-                    nextline = nextline + text[-num:][1:][::-1] # looks cursed but it needs to be reverse
+                    nextline = nextline + text[-num:][::-1] # looks cursed but it needs to be reverse
                     text = text[:-num]
                     break
             lines.append(text)
             #[::-1] = reverse the string since we are reading from the back
-            text = nextline[::-1]
+            text = nextline[::-1].strip()
 
         # assemble
         text = ""

@@ -26,6 +26,8 @@ class textbox(commands.Cog):
         textposlimit = 565
         lines = []
 
+        # autowrap text (word mode (btw i coded it))
+
         while True:
             nextline = ""
             if textpos + font.getlength(text) < textposlimit:

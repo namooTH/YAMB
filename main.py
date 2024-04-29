@@ -17,12 +17,7 @@ async def sync(ctx):
     if ctx.author.id == 899113384660844634: # add ur own id 
         synced = await client.tree.sync()
         print(f"Synced {len(synced)} command(s).")
-
-@client.command() 
-async def say(ctx, arg): 
-    await ctx.send(arg, allowed_mentions=discord.AllowedMentions.none())
-    await ctx.message.delete()
-
+        
 @client.event
 async def on_ready():
     print(f'Logged in as {client.user}')

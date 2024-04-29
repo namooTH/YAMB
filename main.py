@@ -8,7 +8,6 @@ cogsfolder = "cogs"
 
 #get bot token from file
 token = open("token.yml", "r").readline()
-
 client = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 logging.basicConfig(level=logging.ERROR)
 
@@ -17,7 +16,7 @@ async def sync(ctx):
     if ctx.author.id == 899113384660844634: # add ur own id 
         synced = await client.tree.sync()
         print(f"Synced {len(synced)} command(s).")
-        
+
 @client.event
 async def on_ready():
     print(f'Logged in as {client.user}')

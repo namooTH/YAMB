@@ -17,13 +17,18 @@ class textbox(commands.Cog):
     async def generatetextbox(self, avatar, text, name, animated):
         border = Image.open("data/textbox/dt.png")
         img = Image.open("data/textbox/dtbg.png")
+
+        # draw port if exists
         if avatar:
             avatar.thumbnail((134,134), resample=Image.Resampling.NEAREST)
+            middle_img_y = int((img.size[1] - avatar.size[1]) / 2)
+            port_x_pos = int((134 - avatar.size[0]) / 2) + 16
             try:
-                img.paste(avatar, (16,16), avatar)
+                img.paste(avatar, (port_x_pos, middle_img_y), avatar)
             except:  # noqa: E722
-                img.paste(avatar, (16,16))
+                img.paste(avatar, (port_x_pos, middle_img_y))
 
+        # init font
         draw = ImageDraw.Draw(img)
         font = ImageFont.truetype("data/textbox/dtmono.ttf", 30)
         if avatar:
@@ -34,7 +39,6 @@ class textbox(commands.Cog):
         lines = []
 
         # autowrap text (word mode (btw i coded it))
-
         while True:
             if len(lines) >= 3:
                 break
@@ -67,6 +71,7 @@ class textbox(commands.Cog):
             draw.text((namepos[0] + 2, namepos[1] + 2),name,(0,0,0),font=font)
             draw.text(namepos,name,(255,255,255),font=font)
 
+        #put border
         img.paste(border, (0, 0), border)
         font = ImageFont.truetype("data/textbox/dtmono.ttf", 30)
 
@@ -91,8 +96,6 @@ class textbox(commands.Cog):
                 img.save(image_binary, 'PNG')
                 image_binary.seek(0)
                 return discord.File(fp=image_binary, filename='image.png')
-
-        # theres repeated code but I DONT FUCKING CARE
 
     @commands.Cog.listener()
     async def on_message(self, message):

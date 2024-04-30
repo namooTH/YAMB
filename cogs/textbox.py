@@ -100,7 +100,7 @@ class textbox(commands.Cog):
                 drawtext += char
                 temp = img.copy()
                 draw = ImageDraw.Draw(temp)
-                draw.text((textpos, + y_offset),drawtext,(255,255,255),font=font)
+                draw.text((textpos,14 + y_offset),drawtext,(255,255,255),font=font)
                 images.append(temp.copy())
                 duration_frames.append(70) # pause 70 ms
             duration_frames.pop()

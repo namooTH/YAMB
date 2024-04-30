@@ -141,7 +141,7 @@ class textbox(commands.Cog):
         app_commands.Choice(name="catti", value="catti.webp"),
         app_commands.Choice(name="catty", value="catty.webp")])
         
-    async def textbox(self, interaction: discord.Interaction, border_style: Optional[app_commands.Choice[str]], portrait: Optional[app_commands.Choice[str]], name: Optional[str], text: str, animated: Optional[app_commands.Choice[str]], custom_portrait: Optional[discord.Attachment]):
+    async def textbox(self, interaction: discord.Interaction, border_style: Optional[app_commands.Choice[str]], portrait: Optional[app_commands.Choice[str]], name: Optional[str], text: str, animated: Optional[app_commands.Choice[bool]], custom_portrait: Optional[discord.Attachment]):
         port = None
         if portrait and not custom_portrait:
             port = Image.open(f"data/deltarune_portrait/{portrait.value}")

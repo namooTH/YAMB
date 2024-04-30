@@ -17,11 +17,10 @@ class textbox(commands.Cog):
     async def generatetextbox(self, avatar, text, name, animated, border):
         # background
 
-        x_offset = 0
-
         if not border: # default setting
             border = Image.open("data/textbox/dt.png")
             img = Image.open("data/textbox/dtbg.png")
+            x_offset = 7
         else:
             if border in ["dt.png"]:
                 img = Image.open("data/textbox/dtbg.png")

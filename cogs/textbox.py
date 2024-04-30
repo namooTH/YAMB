@@ -157,6 +157,8 @@ class textbox(commands.Cog):
         if animated and animated.value == "True":
             animated = True
 
+        print(animated)
+
         if border_style:
             border_style = border_style.value
 

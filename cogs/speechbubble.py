@@ -39,7 +39,7 @@ class speechbubble(commands.Cog):
             if messager.attachments:
                 img = Image.open(BytesIO(requests.get(messager.attachments[0].url).content))
                 image = await self.generatespeechbubble(img=img)
-                await message.channel.send(file=image)
+                await message.channel.send(file=image, reference=message)
 
 async def setup(bot):
     await bot.add_cog(speechbubble(bot))

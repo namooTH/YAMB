@@ -27,9 +27,9 @@ class textbox(commands.Cog):
         draw = ImageDraw.Draw(img)
         font = ImageFont.truetype("data/textbox/dtmono.ttf", 30)
         if avatar:
-            textpos = 24
-        else:
             textpos = 155
+        else:
+            textpos = 24
         textposlimit = 565
         lines = []
 

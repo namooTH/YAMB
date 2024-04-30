@@ -148,10 +148,9 @@ class textbox(commands.Cog):
         if custom_portrait:
             port = Image.open(BytesIO(requests.get(custom_portrait.url).content))
         
-        if animated.value == "True":
+        animated = False
+        if animated and animated.value == "True":
             animated = True
-        else:
-            animated = False
 
         image = await self.generatetextbox(avatar=port, text=text, name=name, animated=animated, border=border_style)
         await interaction.response.send_message(file=image)

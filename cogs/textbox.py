@@ -20,7 +20,7 @@ class textbox(commands.Cog):
         if not border: # default setting
             border = Image.open("data/textbox/dt.png")
             img = Image.open("data/textbox/dtbg.png")
-            x_offset = 7
+            x_offset = 16
         else:
             if border in ["dt.png"]:
                 img = Image.open("data/textbox/dtbg.png")

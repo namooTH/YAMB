@@ -153,7 +153,7 @@ class textbox(commands.Cog):
         if custom_portrait:
             port = Image.open(BytesIO(requests.get(custom_portrait.url).content))
         
-        if animated.value == "True":
+        if animated and animated.value == "True":
             animated = True
         else:
             animated = False

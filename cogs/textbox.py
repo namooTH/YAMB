@@ -123,7 +123,7 @@ class textbox(commands.Cog):
     async def textbox(self, interaction: discord.Interaction, portrait: Optional[app_commands.Choice[str]], name: Optional[str], text: str, animated: Optional[app_commands.Choice[str]], custom_portrait: Optional[discord.Attachment]):
         port = None
         if portrait and not custom_portrait:
-            port = Image.open(f"data/deltarune_portrait/{portrait}")
+            port = Image.open(f"data/deltarune_portrait/{portrait.value}")
         if custom_portrait:
             port = Image.open(BytesIO(requests.get(custom_portrait.url).content))
         if port:

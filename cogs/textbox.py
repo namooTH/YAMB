@@ -18,7 +18,7 @@ class textbox(commands.Cog):
         border = Image.open("data/textbox/dt.png")
         img = Image.open("data/textbox/dtbg.png")
         if avatar:
-            avatar = avatar.resize((120,120), resample=Image.Resampling.NEAREST)
+            avatar = avatar.thumbnail((120,120), resample=Image.Resampling.NEAREST)
             try:
                 img.paste(avatar, (24,24), avatar)
             except:  # noqa: E722
@@ -37,7 +37,7 @@ class textbox(commands.Cog):
 
         while True:
             nextline = ""
-            if textpos + font.getlength(text) < textposlimit:
+            if textpos + font.getlength(text) < textposlimit or len(lines) >= 3:
                 lines.append(text)
                 break
             while textpos + font.getlength(text) >= textposlimit:
@@ -68,7 +68,7 @@ class textbox(commands.Cog):
         img.paste(border, (0, 0), border)
         font = ImageFont.truetype("data/textbox/dtmono.ttf", 30)
 
-        if not len(text) > 100 and animated:
+        if animated:
             images = []
             drawtext = ""
             for char in text:

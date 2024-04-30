@@ -21,13 +21,16 @@ class textbox(commands.Cog):
             border = Image.open("data/textbox/dt.png")
             img = Image.open("data/textbox/dtbg.png")
             x_offset = 16
+            y_offset = 16
         else:
             if border in ["dt.png"]:
                 img = Image.open("data/textbox/dtbg.png")
                 x_offset = 16
+                y_offset = 16
             if border in ["ut.png"]:
                 img = Image.open("data/textbox/utbg.png")
                 x_offset = 7
+                y_offset = 7
 
             border = Image.open(f"data/textbox/{border}")
 
@@ -48,7 +51,7 @@ class textbox(commands.Cog):
             textpos = 139 + x_offset
         else:
             textpos = 8 + x_offset
-        textposlimit = 565
+        textposlimit = 549 + x_offset
         lines = []
 
         # autowrap text (word mode (btw i coded it))
@@ -97,9 +100,9 @@ class textbox(commands.Cog):
                 drawtext += char
                 temp = img.copy()
                 draw = ImageDraw.Draw(temp)
-                draw.text((textpos, 30),drawtext,(255,255,255),font=font)
+                draw.text((textpos, + y_offset),drawtext,(255,255,255),font=font)
                 images.append(temp.copy())
-                duration_frames.append(100) # pause 100 ms
+                duration_frames.append(70) # pause 70 ms
             duration_frames.pop()
             duration_frames.append(4000) # pause for 4 seconds
             with BytesIO() as image_binary:
@@ -107,7 +110,7 @@ class textbox(commands.Cog):
                 image_binary.seek(0)
                 return discord.File(fp=image_binary, filename='image.gif')
         else:
-            draw.text((textpos, 30),text,(255,255,255),font=font)
+            draw.text((textpos, 14 + y_offset),text,(255,255,255),font=font)
             with BytesIO() as image_binary:
                 img.save(image_binary, 'PNG')
                 image_binary.seek(0)

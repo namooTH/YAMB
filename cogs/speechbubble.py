@@ -18,7 +18,7 @@ class speechbubble(commands.Cog):
         speechbubble = Image.open("data/speechbubble/speechbubble.png").resize((img.size[0], int(img.size[1] / 4)))
         base = Image.new("RGB", (img.size[0], img.size[1]), (255,255,255)).convert('L')
         base.paste(speechbubble, (0,0))
-        img = Image.composite(img,bg,base)
+        return Image.composite(img,bg,base)
 
     @app_commands.command(name="speechbubble", description="makes a speechbubble")
     async def textbox(self, interaction: discord.Interaction, image: discord.Attachment):

@@ -23,7 +23,7 @@ class speechbubble(commands.Cog):
     @app_commands.command(name="speechbubble", description="makes a speechbubble")
     async def textbox(self, interaction: discord.Interaction, image: discord.Attachment):
         img = Image.open(BytesIO(requests.get(image.url).content))
-        image = await self.generatetextbox(img=img)
+        image = await self.generatespeechbubble(img=img)
         await interaction.response.send_message(file=image)
 
 async def setup(bot):

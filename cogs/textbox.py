@@ -37,7 +37,7 @@ class textbox(commands.Cog):
         # draw port if exists
         if avatar:
             avatar.thumbnail((134,134), resample=Image.Resampling.NEAREST)
-            middle_img_y = int((img.size[1] - avatar.size[1]) / 2) + y_offset
+            middle_img_y = int((img.size[1] - avatar.size[1]) / 2)
             port_x_pos = int((134 - avatar.size[0]) / 2) + x_offset
             try:
                 img.paste(avatar, (port_x_pos, middle_img_y), avatar)
@@ -83,7 +83,7 @@ class textbox(commands.Cog):
         # nametag
         if name:
             font = ImageFont.truetype("data/textbox/dtmono.ttf", 16)
-            namepos = (((149 + x_offset) - font.getlength(name)) / 2, 130)
+            namepos = (((149 + x_offset) - font.getlength(name)) / 2, 114 + y_offset)
             draw.text((namepos[0] + 2, namepos[1] + 2),name,(0,0,0),font=font)
             draw.text(namepos,name,(255,255,255),font=font)
 

@@ -18,7 +18,7 @@ class textbox(commands.Cog):
         border = Image.open("data/textbox/dt.png")
         img = Image.open("data/textbox/dtbg.png")
         if avatar:
-            avatar = avatar.thumbnail((120,120), resample=Image.Resampling.NEAREST)
+            avatar.thumbnail((120,120), resample=Image.Resampling.NEAREST)
             try:
                 img.paste(avatar, (24,24), avatar)
             except:  # noqa: E722

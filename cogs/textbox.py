@@ -17,14 +17,19 @@ class textbox(commands.Cog):
     async def generatetextbox(self, avatar, text, name, animated):
         border = Image.open("data/textbox/dt.png")
         img = Image.open("data/textbox/dtbg.png")
-        try:
-            img.paste(avatar, (16,16), avatar)
-        except:  # noqa: E722
-            img.paste(avatar, (16,16))
+        if avatar:
+            avatar = avatar.resize((120,120), resample=Image.Resampling.NEAREST)
+            try:
+                img.paste(avatar, (24,24), avatar)
+            except:  # noqa: E722
+                img.paste(avatar, (24,24))
 
         draw = ImageDraw.Draw(img)
         font = ImageFont.truetype("data/textbox/dtmono.ttf", 30)
-        textpos = 155
+        if avatar:
+            textpos = 24
+        else:
+            textpos = 155
         textposlimit = 565
         lines = []
 
@@ -75,7 +80,7 @@ class textbox(commands.Cog):
             for frame in range(64): # pauses
                 images.append(images[-1])
             with BytesIO() as image_binary:
-                images[0].save(image_binary, 'GIF', save_all=True,append_images=images[1:],duration=70,loop=0)
+                images[0].save(image_binary, 'GIF', save_all=True,append_images=images[1:],duration=100,loop=0)
                 image_binary.seek(0)
                 return discord.File(fp=image_binary, filename='image.gif')
         else:
@@ -126,8 +131,6 @@ class textbox(commands.Cog):
             port = Image.open(f"data/deltarune_portrait/{portrait.value}")
         if custom_portrait:
             port = Image.open(BytesIO(requests.get(custom_portrait.url).content))
-        if port:
-            port = port.resize((134,134), resample=Image.Resampling.NEAREST)
 
         if animated and animated.value == "true":
             image = await self.generatetextbox(avatar=port, text=text, name=name, animated=True)

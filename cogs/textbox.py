@@ -17,14 +17,18 @@ class textbox(commands.Cog):
     async def generatetextbox(self, avatar, text, name, animated, border):
         # background
 
+        x_offset = 0
+
         if not border: # default setting
             border = Image.open("data/textbox/dt.png")
             img = Image.open("data/textbox/dtbg.png")
         else:
             if border in ["dt.png"]:
                 img = Image.open("data/textbox/dtbg.png")
+                x_offset = 16
             if border in ["ut.png"]:
                 img = Image.open("data/textbox/utbg.png")
+                x_offset = 7
 
             border = Image.open(f"data/textbox/{border}")
 
@@ -32,7 +36,7 @@ class textbox(commands.Cog):
         if avatar:
             avatar.thumbnail((134,134), resample=Image.Resampling.NEAREST)
             middle_img_y = int((img.size[1] - avatar.size[1]) / 2)
-            port_x_pos = int((134 - avatar.size[0]) / 2) + 16
+            port_x_pos = int((134 - avatar.size[0]) / 2) + x_offset
             try:
                 img.paste(avatar, (port_x_pos, middle_img_y), avatar)
             except:  # noqa: E722
@@ -42,15 +46,15 @@ class textbox(commands.Cog):
         draw = ImageDraw.Draw(img)
         font = ImageFont.truetype("data/textbox/dtmono.ttf", 30)
         if avatar:
-            textpos = 155
+            textpos = 139 + x_offset
         else:
-            textpos = 24
+            textpos = 8 + x_offset
         textposlimit = 565
         lines = []
 
         # autowrap text (word mode (btw i coded it))
         while True:
-            if len(lines) >= 3:
+            if len(lines) >= 4: # if more than 4 lines
                 break
             nextline = ""
             if textpos + font.getlength(text) < textposlimit:
@@ -77,7 +81,7 @@ class textbox(commands.Cog):
         # nametag
         if name:
             font = ImageFont.truetype("data/textbox/dtmono.ttf", 16)
-            namepos = ((165 - font.getlength(name)) / 2, 130)
+            namepos = (((149 + x_offset) - font.getlength(name)) / 2, 130)
             draw.text((namepos[0] + 2, namepos[1] + 2),name,(0,0,0),font=font)
             draw.text(namepos,name,(255,255,255),font=font)
 

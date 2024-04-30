@@ -127,8 +127,8 @@ class textbox(commands.Cog):
         app_commands.Choice(name="Deltarune", value="dt.png"),
         app_commands.Choice(name="Undertale", value="ut.png")])
     @app_commands.choices(animated=[
-        app_commands.Choice(name="Yes", value=True),
-        app_commands.Choice(name="No", value=False)])
+        app_commands.Choice(name="Yes", value="True"),
+        app_commands.Choice(name="No", value="False")])
     @app_commands.choices(portrait=[
         app_commands.Choice(name="ralsei", value="ralsei.webp"),
         app_commands.Choice(name="susie", value="susie.webp"),
@@ -141,13 +141,18 @@ class textbox(commands.Cog):
         app_commands.Choice(name="catti", value="catti.webp"),
         app_commands.Choice(name="catty", value="catty.webp")])
         
-    async def textbox(self, interaction: discord.Interaction, border_style: Optional[app_commands.Choice[str]], portrait: Optional[app_commands.Choice[str]], name: Optional[str], text: str, animated: Optional[app_commands.Choice[bool]], custom_portrait: Optional[discord.Attachment]):
+    async def textbox(self, interaction: discord.Interaction, border_style: Optional[app_commands.Choice[str]], portrait: Optional[app_commands.Choice[str]], name: Optional[str], text: str, animated: Optional[app_commands.Choice[str]], custom_portrait: Optional[discord.Attachment]):
         port = None
         if portrait and not custom_portrait:
             port = Image.open(f"data/deltarune_portrait/{portrait.value}")
         if custom_portrait:
             port = Image.open(BytesIO(requests.get(custom_portrait.url).content))
         
+        if animated.value == "True":
+            animated = True
+        else:
+            animated = False
+
         image = await self.generatetextbox(avatar=port, text=text, name=name, animated=animated, border=border_style)
         await interaction.response.send_message(file=image)
 

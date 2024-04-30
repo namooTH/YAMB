@@ -152,6 +152,9 @@ class textbox(commands.Cog):
         if animated and animated.value == "True":
             animated = True
 
+        if border_style:
+            border_style = border_style.value
+
         image = await self.generatetextbox(avatar=port, text=text, name=name, animated=animated, border=border_style)
         await interaction.response.send_message(file=image)
 

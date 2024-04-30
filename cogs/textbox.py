@@ -17,14 +17,15 @@ class textbox(commands.Cog):
     async def generatetextbox(self, avatar, text, name, animated, border):
         # background
 
-        if not border:
+        if not border: # default setting
             border = Image.open("data/textbox/dt.png")
+            img = Image.open("data/textbox/dtbg.png")
         else:
             if border in ["dt.png"]:
                 img = Image.open("data/textbox/dtbg.png")
             if border in ["ut.png"]:
                 img = Image.open("data/textbox/utbg.png")
-                
+
             border = Image.open(f"data/textbox/{border}")
 
         # draw port if exists

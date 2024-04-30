@@ -36,8 +36,10 @@ class textbox(commands.Cog):
         # autowrap text (word mode (btw i coded it))
 
         while True:
+            if len(lines) >= 3:
+                break
             nextline = ""
-            if textpos + font.getlength(text) < textposlimit or len(lines) >= 3:
+            if textpos + font.getlength(text) < textposlimit:
                 lines.append(text)
                 break
             while textpos + font.getlength(text) >= textposlimit:

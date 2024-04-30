@@ -86,7 +86,7 @@ class textbox(commands.Cog):
                 draw.text((textpos, 30),drawtext,(255,255,255),font=font)
                 images.append(temp.copy())
                 duration_frames.append(100) # pause 100 ms
-            duration_frames.append(4000) # pause for 4 seconds
+            duration_frames = duration_frames[:-1] + 4000 # pause for 4 seconds
             with BytesIO() as image_binary:
                 images[0].save(image_binary, 'GIF', save_all=True,append_images=images[1:],duration=duration_frames,loop=0)
                 image_binary.seek(0)

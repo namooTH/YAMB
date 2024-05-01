@@ -58,7 +58,7 @@ class textbox(commands.Cog):
         if avatar:
             textpos = 139 + x_offset
         else:
-            textpos = 8 + x_offset
+            textpos = 10 + x_offset
         textposlimit = 549 + x_offset
         lines = []
 
@@ -93,7 +93,7 @@ class textbox(commands.Cog):
         # nametag
         if name:
             font = ImageFont.truetype(fontfile, 16)
-            namepos = (((149 + x_offset) - font.getlength(name)) / 2, 114 + y_offset)
+            namepos = ((int((134 - avatar.size[0]) - font.getlength(name)) / 2) + x_offset, 114 + y_offset)
             draw.text((namepos[0] + 2, namepos[1] + 2),name,(0,0,0),font=font)
             draw.text(namepos,name,(255,255,255),font=font)
 

@@ -62,37 +62,28 @@ class textbox(commands.Cog):
         textposlimit = 549 + x_offset
         lines = []
 
-        # autowrap text (word mode)
-        overalllength = 0
-        original_text = text
+        # autowrap text (word mode (btw i coded it))
         while True:
-            if len(lines) >= 3:
+            if len(lines) >= 3: # if more than 4 lines
                 break
-            
-            checked = False
-            length = font.getlength(text)
-            length = int(((textpos + length) - textposlimit) / (length / len(text)))
-            while textpos + font.getlength(text[:length]) > textposlimit:
-                checked = True
-                text = text[:length]
-                length -= 1
-            if not checked:
+            nextline = ""
+            if textpos + font.getlength(text) < textposlimit:
                 lines.append(text)
                 break
-            overalllength += length + 1
-            nextline = original_text[overalllength:]
-            
-            # detect if space is found
-            spacerange = 10
-            if " " in (text[len(text) - spacerange:]):
-                for num in range(1, spacerange):
-                    if text[-num] == " ":
-                        nextline = text[-num:][1:] + nextline
-                        overalllength -= num - 1
-                        text = text[:-num]
-                        break
+            while textpos + font.getlength(text) >= textposlimit:
+                nextline += text[-1] # <--
+                text = text[:-1] # <--
+            # detect if space is presented in the last 10 chars
+            for num in range(1, 10):
+                if text[-num] == " ":
+                    nextline = nextline + text[-num:][::-1] # looks cursed but it needs to be reverse
+                    text = text[:-num]
+                    break
             lines.append(text)
-            text = nextline
+            #[::-1] = reverse the string since we are reading from the back
+            text = nextline[::-1].strip()
+            if asterisk:
+                text = "* " + text
 
         # assemble
         text = ""

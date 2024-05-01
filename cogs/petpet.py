@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
+from typing import Optional
 
 from petpetgif import petpet
 
@@ -34,9 +35,16 @@ class petpetc(commands.Cog):
     async def pet(
         self,
         interaction: discord.Interaction,
-        image: discord.Attachment):
+        user: Optional[discord.Member],
+        custom_image: Optional[discord.Attachment]):
 
-        img = BytesIO(requests.get(image.url).content)
+        if not user and not custom_image:
+            await interaction.response.send_message("bro select one thing god damn",ephemeral=True)
+        if user:
+            img = BytesIO(requests.get(user.avatar.url).content)
+        if custom_image:
+            img = BytesIO(requests.get(custom_image.url).content)
+        
         image = await self.generatepetpet(image=img)
         await interaction.response.send_message(file=image)
 

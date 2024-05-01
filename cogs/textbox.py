@@ -26,7 +26,7 @@ class textbox(commands.Cog):
         # background
 
         if not border: # default setting
-            border = Image.open("data/textbox/dt.png")
+            border = Image.open("data/textbox/border/dt.png")
             img = Image.open("data/textbox/dtbg.png")
             x_offset = 16
             y_offset = 16
@@ -40,7 +40,7 @@ class textbox(commands.Cog):
                 x_offset = 7
                 y_offset = 7
 
-            border = Image.open(f"data/textbox/{border}")
+            border = Image.open(f"data/textbox/border/{border}")
 
         # draw port if exists
         if avatar:
@@ -146,7 +146,9 @@ class textbox(commands.Cog):
     @app_commands.command(name="textbox", description="makes a textbox")
     @app_commands.choices(border_style=[
         app_commands.Choice(name="Deltarune", value="dt.png"),
-        app_commands.Choice(name="Undertale", value="ut.png")])
+        app_commands.Choice(name="Undertale", value="ut.png"),
+        app_commands.Choice(name="Earthbound", value="earthbound.png"),
+        app_commands.Choice(name="TS!UNDERSWAP", value="thunder.png")])
     @app_commands.choices(font=[
         app_commands.Choice(name="Determination Mono", value="determination-mono.ttf"),
         app_commands.Choice(name="Comic Sans", value="comic-sans.ttf"),

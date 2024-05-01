@@ -166,6 +166,7 @@ class textbox(commands.Cog):
         app_commands.Choice(name="ralsei", value="ralsei.webp"),
         app_commands.Choice(name="susie", value="susie.webp"),
         app_commands.Choice(name="sans", value="sans.webp"),
+        app_commands.Choice(name="papyrus", value="papyrus.webp"),
         app_commands.Choice(name="queen", value="queen.webp"),
         app_commands.Choice(name="berdly", value="berdly.webp"),
         app_commands.Choice(name="asgore", value="asgore.webp"),
@@ -187,7 +188,7 @@ class textbox(commands.Cog):
         nametag: Optional[str]):
         port = None
         if portrait and not custom_portrait:
-            port = Image.open(f"data/deltarune_portrait/{portrait.value}")
+            port = Image.open(f"data/textbox/portraits/{portrait.value}")
         if custom_portrait:
             port = Image.open(BytesIO(requests.get(custom_portrait.url).content))
         

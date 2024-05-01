@@ -18,7 +18,7 @@ class textbox(commands.Cog):
         if fontfile:
             fontfile = f"data/fonts/{fontfile}"
         else:
-            fontfile = "data/fonts/dtmono.ttf"
+            fontfile = "data/fonts/determination-mono.ttf"
 
         if asterisk:
             text = "* " + text
@@ -148,7 +148,7 @@ class textbox(commands.Cog):
         app_commands.Choice(name="Deltarune", value="dt.png"),
         app_commands.Choice(name="Undertale", value="ut.png")])
     @app_commands.choices(font=[
-        app_commands.Choice(name="Determination Mono", value="dt.ttf"),
+        app_commands.Choice(name="Determination Mono", value="determination-mono.ttf"),
         app_commands.Choice(name="Comic Sans", value="comic-sans.ttf"),
         app_commands.Choice(name="Earthbound", value="earthbound.ttf"),
         app_commands.Choice(name="Minecraft", value="minecraft.ttf"),

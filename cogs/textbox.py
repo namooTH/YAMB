@@ -14,7 +14,12 @@ class textbox(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    async def generatetextbox(self, avatar, text, name, animated, border, asterisk):
+    async def generatetextbox(self, avatar, text, name, animated, border, asterisk, fontfile):
+        if fontfile:
+            fontfile = f"data/fonts/{fontfile}"
+        else:
+            fontfile = "data/fonts/dtmono.ttf"
+
         if asterisk:
             text = "* " + text
 
@@ -49,7 +54,7 @@ class textbox(commands.Cog):
 
         # init font
         draw = ImageDraw.Draw(img)
-        font = ImageFont.truetype("data/textbox/dtmono.ttf", 30)
+        font = ImageFont.truetype(fontfile, 30)
         if avatar:
             textpos = 139 + x_offset
         else:
@@ -87,7 +92,7 @@ class textbox(commands.Cog):
 
         # nametag
         if name:
-            font = ImageFont.truetype("data/textbox/dtmono.ttf", 16)
+            font = ImageFont.truetype(fontfile, 16)
             namepos = (((149 + x_offset) - font.getlength(name)) / 2, 114 + y_offset)
             draw.text((namepos[0] + 2, namepos[1] + 2),name,(0,0,0),font=font)
             draw.text(namepos,name,(255,255,255),font=font)
@@ -96,7 +101,7 @@ class textbox(commands.Cog):
         img.paste(border, (0, 0), border)
 
         # check if is animated and put text
-        font = ImageFont.truetype("data/textbox/dtmono.ttf", 30)
+        font = ImageFont.truetype(fontfile, 30)
         if animated:
             duration_frames = []
             images = []
@@ -142,6 +147,13 @@ class textbox(commands.Cog):
     @app_commands.choices(border_style=[
         app_commands.Choice(name="Deltarune", value="dt.png"),
         app_commands.Choice(name="Undertale", value="ut.png")])
+    @app_commands.choices(font=[
+        app_commands.Choice(name="Determination Mono", value="dt.ttf"),
+        app_commands.Choice(name="Comic Sans", value="comic-sans.ttf"),
+        app_commands.Choice(name="Earthbound", value="earthbound.ttf"),
+        app_commands.Choice(name="Minecraft", value="minecraft.ttf"),
+        app_commands.Choice(name="Papyrus", value="papyrus.ttf"),
+        app_commands.Choice(name="Wingdings", value="wingdings.ttf")])
     @app_commands.choices(asterisk=[
         app_commands.Choice(name="Yes", value="True"),
         app_commands.Choice(name="No", value="False")])
@@ -163,12 +175,14 @@ class textbox(commands.Cog):
     async def textbox(
         self,
         interaction: discord.Interaction,
-        name: Optional[str],
+        text: str,
+        font: Optional[app_commands.Choice[str]],
         asterisk: Optional[app_commands.Choice[str]],
         border_style: Optional[app_commands.Choice[str]],
         portrait: Optional[app_commands.Choice[str]],
-        text: str, animated: Optional[app_commands.Choice[str]],
-        custom_portrait: Optional[discord.Attachment]):
+        custom_portrait: Optional[discord.Attachment],
+        animated: Optional[app_commands.Choice[str]],
+        nametag: Optional[str]):
         port = None
         if portrait and not custom_portrait:
             port = Image.open(f"data/deltarune_portrait/{portrait.value}")
@@ -185,11 +199,15 @@ class textbox(commands.Cog):
         else:
             asterisk = False
 
+        if font:
+            font = font.value
+        else:
+            font = None
 
         if border_style:
             border_style = border_style.value
 
-        image = await self.generatetextbox(avatar=port, text=text, name=name, animated=animated, border=border_style, asterisk=asterisk)
+        image = await self.generatetextbox(avatar=port, text=text, name=nametag, animated=animated, border=border_style, asterisk=asterisk, font=font)
         await interaction.response.send_message(file=image)
 
 async def setup(bot):

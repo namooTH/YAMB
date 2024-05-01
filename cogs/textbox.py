@@ -35,7 +35,7 @@ class textbox(commands.Cog):
                 img = Image.open("data/textbox/dtbg.png")
                 x_offset = 16
                 y_offset = 16
-            if border in ["ut.png"]:
+            if border in ["ut.png", "earthbound.png", "thunder.png"]:
                 img = Image.open("data/textbox/utbg.png")
                 x_offset = 7
                 y_offset = 7

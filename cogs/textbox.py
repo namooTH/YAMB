@@ -207,7 +207,7 @@ class textbox(commands.Cog):
         if border_style:
             border_style = border_style.value
 
-        image = await self.generatetextbox(avatar=port, text=text, name=nametag, animated=animated, border=border_style, asterisk=asterisk, font=font)
+        image = await self.generatetextbox(avatar=port, text=text, name=nametag, animated=animated, border=border_style, asterisk=asterisk, fontfile=font)
         await interaction.response.send_message(file=image)
 
 async def setup(bot):

@@ -58,7 +58,7 @@ class textbox(commands.Cog):
         if avatar:
             textpos = 139 + x_offset
         else:
-            textpos = 10 + x_offset
+            textpos = 12 + x_offset
         textposlimit = 549 + x_offset
         lines = []
 

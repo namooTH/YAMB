@@ -69,14 +69,16 @@ class textbox(commands.Cog):
             if len(lines) >= 3:
                 break
             
+            checked = False
             length = font.getlength(text)
-            if length <= textposlimit:
-                lines.append(text)
-                break
             length = int(((textpos + length) - textposlimit) / (length / len(text)))
             while textpos + font.getlength(text[:length]) > textposlimit:
+                checked = True
                 text = text[:length]
                 length -= 1
+            if not checked:
+                lines.append(text)
+                break
             overalllength += length + 1
             nextline = original_text[overalllength:]
 

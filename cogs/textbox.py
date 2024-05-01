@@ -69,17 +69,19 @@ class textbox(commands.Cog):
             if len(lines) >= 3:
                 break
             
+            checked = False
             length = font.getlength(text)
-            if textpos + length <= textposlimit:
-                lines.append(text)
-                break
             length = int(((textpos + length) - textposlimit) / (length / len(text)))
             while textpos + font.getlength(text[:length]) > textposlimit:
+                checked = True
                 text = text[:length]
                 length -= 1
+            if not checked:
+                lines.append(text)
+                break
             overalllength += length + 1
             nextline = original_text[overalllength:]
-
+            
             # detect if space is found
             spacerange = 10
             if " " in (text[len(text) - spacerange:]):

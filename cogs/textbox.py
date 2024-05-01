@@ -110,7 +110,7 @@ class textbox(commands.Cog):
                 drawtext += char
                 temp = img.copy()
                 draw = ImageDraw.Draw(temp)
-                draw.text((textpos,16 + y_offset),drawtext,(255,255,255),font=font)
+                draw.text((textpos,16 + y_offset),drawtext,(255,255,255),font=font,spacing=10)
                 images.append(temp.copy())
                 duration_frames.append(70) # pause 70 ms
             duration_frames.pop()
@@ -120,7 +120,7 @@ class textbox(commands.Cog):
                 image_binary.seek(0)
                 return discord.File(fp=image_binary, filename='image.gif')
         else:
-            draw.text((textpos, 16 + y_offset),text,(255,255,255),font=font)
+            draw.text((textpos, 16 + y_offset),text,(255,255,255),font=font,spacing=10)
             with BytesIO() as image_binary:
                 img.save(image_binary, 'PNG')
                 image_binary.seek(0)

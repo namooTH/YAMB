@@ -239,10 +239,6 @@ class textbox(commands.Cog):
         custom_background: Optional[discord.Attachment],
         nametag: Optional[str]):
         port = None
-        font = None
-        asterisk = None
-        animated = None
-        custom_background = None
         if portrait and not custom_portrait:
             port = Image.open(f"data/textbox/portraits/{portrait.value}")
         if custom_portrait:
@@ -255,7 +251,6 @@ class textbox(commands.Cog):
         if font:
             font = font.value
         if custom_background:
-            print("what is wrong with ")
             custom_background = Image.open(BytesIO(requests.get(custom_background.url).content))
         if border_style:
             border_style = border_style.value

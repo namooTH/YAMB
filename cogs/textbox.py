@@ -9,6 +9,7 @@ import requests
 from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
+from pilmoji import Pilmoji
 
 import math
 
@@ -129,8 +130,10 @@ class textbox(commands.Cog):
                 images[0].save(image_binary, 'GIF', save_all=True,append_images=images[1:],duration=duration_frames,loop=0)
                 image_binary.seek(0)
                 return discord.File(fp=image_binary, filename='image.gif')
-        else:
-            draw.text((textpos, 16 + y_offset),text,(255,255,255),font=font,spacing=10)
+        else:        
+            with Pilmoji(img) as pilmoji:
+                pilmoji.text((textpos, 16 + y_offset), text.strip(), (0, 0, 0), font, spacing=10)
+            #draw.text(,text,(255,255,255),font=font,spacing=10)
             with BytesIO() as image_binary:
                 img.save(image_binary, 'PNG')
                 image_binary.seek(0)

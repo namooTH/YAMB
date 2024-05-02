@@ -12,6 +12,7 @@ from PIL import ImageDraw
 from pilmoji import Pilmoji
 
 import math
+import re
 
 class textbox(commands.Cog):
     def __init__(self, bot):
@@ -66,6 +67,13 @@ class textbox(commands.Cog):
         lines = []
 
         # autowrap text (word mode) (also math jumpscare)
+
+        #finds emoji and not replace it
+        pattern = r'(<.*?>)'
+        replacement = '■'
+        finds = re.findall(pattern, text)
+        text = re.sub(pattern, replacement, text)
+
         while True:
             if len(lines) >= 3:
                 break
@@ -100,6 +108,8 @@ class textbox(commands.Cog):
         text = ""
         for line in range(len(lines)):
             text += lines[line] + "\n"
+        for emoji in finds:
+            text = text.replace(replacement, emoji, 1)
 
         # nametag
         if name:

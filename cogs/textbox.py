@@ -130,10 +130,10 @@ class textbox(commands.Cog):
             for char in text:
                 drawtext += char
                 temp = img.copy()
-                with Pilmoji(temp) as pilmoji:
-                    pilmoji.text((textpos, 16 + y_offset), text.strip(), (255, 255, 255), font, spacing=10)
-                #draw = ImageDraw.Draw(temp)
-                #draw.text((textpos,16 + y_offset),drawtext,(255,255,255),font=font,spacing=10)
+                #with Pilmoji(temp) as pilmoji:
+                #    pilmoji.text((textpos, 16 + y_offset), text.strip(), (255, 255, 255), font, spacing=10)
+                draw = ImageDraw.Draw(temp)
+                draw.text((textpos,16 + y_offset),drawtext,(255,255,255),font=font,spacing=10)
                 images.append(temp.copy())
                 duration_frames.append(70) # pause 70 ms
             duration_frames.pop()
@@ -144,7 +144,7 @@ class textbox(commands.Cog):
                 return discord.File(fp=image_binary, filename='image.gif')
         else:        
             with Pilmoji(img) as pilmoji:
-                pilmoji.text((textpos, 16 + y_offset), text.strip(), (255, 255, 255), font, spacing=10)
+                pilmoji.text((textpos, 16 + y_offset), text.strip(), (255, 255, 255), font, spacing=10, emoji_scale_factor=0.70, emoji_position_offset=(0, -2))
             #draw.text(,text,(255,255,255),font=font,spacing=10)
             with BytesIO() as image_binary:
                 img.save(image_binary, 'PNG')

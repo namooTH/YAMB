@@ -130,8 +130,10 @@ class textbox(commands.Cog):
             for char in text:
                 drawtext += char
                 temp = img.copy()
-                draw = ImageDraw.Draw(temp)
-                draw.text((textpos,16 + y_offset),drawtext,(255,255,255),font=font,spacing=10)
+                with Pilmoji(temp) as pilmoji:
+                    pilmoji.text((textpos, 16 + y_offset), text.strip(), (255, 255, 255), font, spacing=10)
+                #draw = ImageDraw.Draw(temp)
+                #draw.text((textpos,16 + y_offset),drawtext,(255,255,255),font=font,spacing=10)
                 images.append(temp.copy())
                 duration_frames.append(70) # pause 70 ms
             duration_frames.pop()

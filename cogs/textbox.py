@@ -132,7 +132,7 @@ class textbox(commands.Cog):
                 return discord.File(fp=image_binary, filename='image.gif')
         else:        
             with Pilmoji(img) as pilmoji:
-                pilmoji.text((textpos, 16 + y_offset), text.strip(), (0, 0, 0), font, spacing=10)
+                pilmoji.text((textpos, 16 + y_offset), text.strip(), (255, 255, 255), font, spacing=10)
             #draw.text(,text,(255,255,255),font=font,spacing=10)
             with BytesIO() as image_binary:
                 img.save(image_binary, 'PNG')

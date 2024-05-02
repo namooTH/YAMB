@@ -255,6 +255,7 @@ class textbox(commands.Cog):
         if font:
             font = font.value
         if custom_background:
+            print("what is wrong with ")
             custom_background = Image.open(BytesIO(requests.get(custom_background.url).content))
         if border_style:
             border_style = border_style.value

@@ -48,6 +48,7 @@ class textbox(commands.Cog):
             border = Image.open(f"data/textbox/border/{border}")
 
         if custom_background:
+            print("a")
             img = custom_background
             img.thumbnail((mask.size[0] * 2,mask.size[1] * 2), resample=Image.Resampling.NEAREST)
             img = img.filter(ImageFilter.GaussianBlur(5))

@@ -10,6 +10,8 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 
+import math
+
 class textbox(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -62,28 +64,36 @@ class textbox(commands.Cog):
         textposlimit = 549 + x_offset
         lines = []
 
-        # autowrap text (word mode (btw i coded it))
+        # autowrap text (word mode) (also math jumpscare)
         while True:
-            if len(lines) >= 3: # if more than 4 lines
+            if len(lines) >= 3:
                 break
-            nextline = ""
-            if textpos + font.getlength(text) < textposlimit:
+            
+            textlength = font.getlength(text)
+            if textlength < textposlimit - textpos:
                 lines.append(text)
                 break
-            while textpos + font.getlength(text) >= textposlimit:
-                nextline += text[-1] # <--
-                text = text[:-1] # <--
-            # detect if space is presented in the last 10 chars
-            for num in range(1, 10):
-                if text[-num] == " ":
-                    nextline = nextline + text[-num:][::-1] # looks cursed but it needs to be reverse
-                    text = text[:-num]
-                    break
+            length = math.ceil((textlength - (textposlimit - textpos)) / (textlength / len(text)))
+
+            # if text is too long or too short
+            while font.getlength(text[:int(len(text) - length)]) > textposlimit - textpos:
+                length -= 1
+            while font.getlength(text[:int(len(text) - length)]) - (textposlimit - textpos) < -100:
+                length += 1
+
+            nextline = text[int(len(text) - length):]
+            text = text[:int(len(text) - length)]
+
+            # detect if space is found
+            spacerange = 10
+            if " " in (text[len(text) - spacerange:]):
+                for num in range(1, spacerange):
+                    if text[-num] == " ":
+                        nextline = text[-num:][1:] + nextline
+                        text = text[:-num]
+                        break
             lines.append(text)
-            #[::-1] = reverse the string since we are reading from the back
-            text = nextline[::-1].strip()
-            if asterisk:
-                text = "* " + text
+            text = nextline
 
         # assemble
         text = ""

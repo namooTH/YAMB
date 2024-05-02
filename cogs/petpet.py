@@ -25,8 +25,6 @@ class petpetc(commands.Cog):
             return
         if message.content.lower() == "petpet":
             messager = await message.channel.fetch_message(message.reference.message_id)
-            if messager.author == self.bot.user:
-                return
             img = BytesIO(requests.get(messager.author.avatar.url).content)
             image = await self.generatepetpet(image=img)
             await message.channel.send(file=image, reference=message)

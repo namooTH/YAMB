@@ -153,8 +153,8 @@ class textbox(commands.Cog):
                 if not custom_background:
                     draw.text((textpos,16 + y_offset),drawtext,(255,255,255),font=font,spacing=10)
                 else:
-                    draw.text((textpos + 2, 30 + 2),text,(0,0,0),font=font, spacing=10)
-                    draw.text((textpos, 30),text,(255,255,255),font=font, spacing=10)
+                    draw.text((textpos + 2, 30 + 2),drawtext,(0,0,0),font=font, spacing=10)
+                    draw.text((textpos, 30),drawtext,(255,255,255),font=font, spacing=10)
                 images.append(temp.copy())
                 duration_frames.append(70) # pause 70 ms
             duration_frames.pop()

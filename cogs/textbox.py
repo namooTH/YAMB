@@ -48,7 +48,6 @@ class textbox(commands.Cog):
             border = Image.open(f"data/textbox/border/{border}")
 
         if custom_background:
-            print("a")
             img = custom_background
             img.thumbnail((mask.size[0] * 2,mask.size[1] * 2), resample=Image.Resampling.NEAREST)
             img = img.filter(ImageFilter.GaussianBlur(5))
@@ -150,10 +149,12 @@ class textbox(commands.Cog):
             for char in text:
                 drawtext += char
                 temp = img.copy()
-                #with Pilmoji(temp) as pilmoji:
-                #    pilmoji.text((textpos, 16 + y_offset), text.strip(), (255, 255, 255), font, spacing=10)
                 draw = ImageDraw.Draw(temp)
-                draw.text((textpos,16 + y_offset),drawtext,(255,255,255),font=font,spacing=10)
+                if not custom_background:
+                    draw.text((textpos,16 + y_offset),drawtext,(255,255,255),font=font,spacing=10)
+                else:
+                    draw.text((textpos + 2, 30 + 2),text,(0,0,0),font=font, spacing=10)
+                    draw.text((textpos, 30),text,(255,255,255),font=font, spacing=10)
                 images.append(temp.copy())
                 duration_frames.append(70) # pause 70 ms
             duration_frames.pop()
@@ -162,9 +163,14 @@ class textbox(commands.Cog):
                 images[0].save(image_binary, 'GIF', save_all=True,append_images=images[1:],duration=duration_frames,loop=0)
                 image_binary.seek(0)
                 return discord.File(fp=image_binary, filename='image.gif')
-        else:        
-            with Pilmoji(img) as pilmoji:
-                pilmoji.text((textpos, 16 + y_offset), text.strip(), (255, 255, 255), font, spacing=10, emoji_scale_factor=1, emoji_position_offset=(0, -2))
+        else:
+            if not custom_background:
+                with Pilmoji(img) as pilmoji:
+                    pilmoji.text((textpos, 16 + y_offset), text.strip(), (255, 255, 255), font, spacing=10, emoji_scale_factor=1, emoji_position_offset=(0, -2))
+            else:
+                draw = ImageDraw.Draw(img)
+                draw.text((textpos + 2, 30 + 2),text,(0,0,0),font=font, spacing=10)
+                draw.text((textpos, 30),text,(255,255,255),font=font, spacing=10)
             #draw.text(,text,(255,255,255),font=font,spacing=10)
             with BytesIO() as image_binary:
                 img.save(image_binary, 'PNG')

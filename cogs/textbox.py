@@ -9,6 +9,7 @@ import requests
 from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
+from PIL import ImageFilter 
 from pilmoji import Pilmoji
 
 import math
@@ -18,7 +19,7 @@ class textbox(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    async def generatetextbox(self, text, avatar=None, name=None, animated=None, border=None, asterisk=None, fontfile=None):
+    async def generatetextbox(self, text, avatar=None, name=None, animated=None, border=None, asterisk=None, fontfile=None, custom_background=None):
         # setup stuff
         if fontfile:
             fontfile = f"data/fonts/{fontfile}"
@@ -31,20 +32,38 @@ class textbox(commands.Cog):
         # border & background
         if not border: # default setting
             border = Image.open("data/textbox/border/dt.png")
-            img = Image.open("data/textbox/dtbg.png")
+            mask = Image.open("data/textbox/dtbg.png")
             x_offset = 16
             y_offset = 16
         else:
             if border in ["dt.png"]:
-                img = Image.open("data/textbox/dtbg.png")
+                mask = Image.open("data/textbox/dtbg.png")
                 x_offset = 16
                 y_offset = 16
             if border in ["ut.png", "earthbound.png", "thunder.png"]:
-                img = Image.open("data/textbox/utbg.png")
+                mask = Image.open("data/textbox/utbg.png")
                 x_offset = 7
                 y_offset = 7
 
             border = Image.open(f"data/textbox/border/{border}")
+
+        if custom_background:
+            img = custom_background
+            img.thumbnail((mask.size[0] * 2,mask.size[1] * 2), resample=Image.Resampling.NEAREST)
+            img = img.filter(ImageFilter.GaussianBlur(5))
+            width, height = img.size
+            left = (width - mask.size[0])/2
+            top = (height - mask.size[1])/2
+            right = (width + mask.size[0])/2
+            bottom = (height + mask.size[1])/2
+            img = img.crop((left, top, right, bottom))
+            img = img.resize((mask.size[0], mask.size[1]))
+        else:
+            img = Image.new("RGB", (mask.size[0], mask.size[1]), (0,0,0))
+
+        bg = Image.new("RGB", (mask.size[0], mask.size[1]))
+        bg.putalpha(0)
+        img = Image.composite(img,bg,mask)
 
         # draw port if exists
         if avatar:
@@ -210,14 +229,19 @@ class textbox(commands.Cog):
         self,
         interaction: discord.Interaction,
         text: str,
+        animated: Optional[app_commands.Choice[str]],
         font: Optional[app_commands.Choice[str]],
         asterisk: Optional[app_commands.Choice[str]],
         border_style: Optional[app_commands.Choice[str]],
         portrait: Optional[app_commands.Choice[str]],
         custom_portrait: Optional[discord.Attachment],
-        animated: Optional[app_commands.Choice[str]],
+        custom_background: Optional[discord.Attachment],
         nametag: Optional[str]):
         port = None
+        font = None
+        asterisk = None
+        animated = None
+        custom_background = None
         if portrait and not custom_portrait:
             port = Image.open(f"data/textbox/portraits/{portrait.value}")
         if custom_portrait:
@@ -225,23 +249,16 @@ class textbox(commands.Cog):
         
         if animated and animated.value == "True":
             animated = True
-        else:
-            animated = False
-
         if asterisk and asterisk.value == "True":
             asterisk = True
-        else:
-            asterisk = False
-
         if font:
             font = font.value
-        else:
-            font = None
-
+        if custom_background:
+            custom_background = Image.open(BytesIO(requests.get(custom_background.url).content))
         if border_style:
             border_style = border_style.value
 
-        image = await self.generatetextbox(avatar=port, text=text, name=nametag, animated=animated, border=border_style, asterisk=asterisk, fontfile=font)
+        image = await self.generatetextbox(avatar=port, text=text, name=nametag, animated=animated, border=border_style, asterisk=asterisk, fontfile=font, custom_background=custom_background)
         await interaction.response.send_message(file=image)
 
 async def setup(bot):

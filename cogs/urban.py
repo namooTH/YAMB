@@ -24,7 +24,7 @@ class urban(commands.Cog):
         r = r[random.randint(0, len(r))]
         embed=discord.Embed(title=r.word, description=r.definition, color=0x62a0ea)
         embed.add_field(name="By", value=r.author, inline=True)
-        embed.add_field(name="Like(s)/Dislike(s)", value="👍 {r.thumbs_up} / 👎 {r.thumbs_down}", inline=True)
+        embed.add_field(name="Like(s)/Dislike(s)", value=f"👍 {r.thumbs_up} / 👎 {r.thumbs_down}", inline=True)
         await interaction.response.send_message(embed=embed)
 
 

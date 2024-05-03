@@ -16,7 +16,7 @@ class train(commands.Cog):
             return
         if message.content.lower() == "train" and message.author.id == 899113384660844634:
             channel = message.channel
-            messages = await channel.history(limit=200).flatten()
+            messages = await channel.history(limit=200)#.flatten()
             for msg in messages:
                 print(msg.jump_url)
 

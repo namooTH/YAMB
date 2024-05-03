@@ -24,6 +24,10 @@ class bot(commands.Bot):
         pass
 bot = bot()
 
+@bot.command(name="hello") 
+async def hello(ctx):
+    print("hello")
+
 @bot.command(name="sync") 
 async def sync(ctx):
     if ctx.author.id == 899113384660844634: # add ur own id 

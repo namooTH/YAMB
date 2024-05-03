@@ -29,8 +29,10 @@ class yourenobody(commands.Cog):
                 usr_id = self.cooldowns[next(iter(self.cooldowns))]
                 guild = self.bot.get_guild(self.guildid)
                 usr = guild.get_member(usr_id)
-                await usr.remove_roles(get(guild.roles, id=self.stupidrole))
-
+                try:
+                    await usr.remove_roles(get(guild.roles, id=self.stupidrole))
+                except:
+                    pass
                 os.remove(f"data/just_joined/{usr_id}")
                 del self.cooldowns[next(iter(self.cooldowns))]
 

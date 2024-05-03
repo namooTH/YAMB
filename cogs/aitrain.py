@@ -14,7 +14,7 @@ class train(commands.Cog):
     async def on_message(self, message):
         if message.author == self.bot.user:
             return
-        if message.content.lower() == "train" and message.author == 899113384660844634:
+        if message.content.lower() == "train" and message.author.id == 899113384660844634:
             channel = message.channel
             messages = await channel.history(limit=200).flatten()
             for msg in messages:

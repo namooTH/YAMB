@@ -16,6 +16,11 @@ class music(commands.Cog):
 
     group = app_commands.Group(name="music", description="music stuff")
 
+    async def get_queue(self, guild):
+        if self.queue[guild.id]:
+            return self.queue[guild.id]
+        return Queue()
+
     @commands.Cog.listener()
     async def on_wavelink_track_end(self, payload):
         await self.play_next_track(guild=payload.player.guild)
@@ -105,7 +110,7 @@ class music(commands.Cog):
 
     @group.command(name="current_playing", description="what is currently playing")
     async def current_playing(self, interaction: discord.Interaction):
-        queue = self.queue[interaction.guild.id]
+        queue = self.get_queue(guild=interaction.guild)
         vc = interaction.guild.voice_client
 
         progressbar_length = 25

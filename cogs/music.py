@@ -5,6 +5,9 @@ from discord import app_commands
 from discord import Embed
 from wavelink import Queue
 
+from time import strftime
+from time import gmtime
+
 class music(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -106,7 +109,7 @@ class music(commands.Cog):
         queue = self.queue[interaction.guild.id]
         vc = self.vc[interaction.guild.id]
 
-        embed = Embed(title="Currently playing", description=f'`{vc.current.title} - {vc.current.author}`\n`{vc.position / 1000} - {vc.current.length / 1000}`')
+        embed = Embed(title="Currently playing", description=f'`{vc.current.title} - {vc.current.author}`\n`{strftime("%H:%M:%S", gmtime(vc.position / 1000))} - {strftime("%H:%M:%S", gmtime(vc.current.length / 1000))}`')
         await interaction.response.send_message(embed=embed)
 
 

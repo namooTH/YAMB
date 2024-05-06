@@ -54,10 +54,10 @@ class music(commands.Cog):
         
     async def play_next_track(self, guild):
         vc = guild.voice_client
-        queue = await self.get_queue(guild=guild)
+        queue = await vc.queue
 
         if not queue.is_empty:
-            track = vc.queue.get()
+            track = queue.get()
             await vc.play(track)
             embed = Embed(title="🎵 playing now", description=f'`{track.title} - {track.author}` is playing now.')
             await self.music_channel.send(embed=embed)

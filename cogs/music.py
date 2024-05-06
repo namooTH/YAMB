@@ -114,7 +114,7 @@ class music(commands.Cog):
         progressbar = ""
         currentprogress = int(vc.position / vc.current.length * progressbar_length)
 
-        for i in progressbar_length:
+        for i in range(progressbar_length):
             if i == currentprogress:
                 progressbar += "▶"
                 continue

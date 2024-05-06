@@ -30,7 +30,7 @@ class music(commands.Cog):
             await interaction.user.voice.channel.connect(cls=wavelink.Player)
 
         vc = interaction.guild.voice_client
-        queue = await self.get_queue(guild=interaction.guild)
+        queue = vc.queue
 
         try:
             tracks: wavelink.Search = await wavelink.Playable.search(search)
@@ -41,7 +41,7 @@ class music(commands.Cog):
 
         track: wavelink.Playable = tracks[0]
         track.extras = {"requester": interaction.user.name}
-        vc.queue.put(track)
+        queue.put(track)
 
         self.music_channel = interaction.channel
         embed = Embed(title="🎵 Song added to the queue.", description=f'`{track.title} - {track.author}` was added to the queue.')
@@ -89,7 +89,7 @@ class music(commands.Cog):
     @group.command(name="skip", description="skip song")
     async def skip(self, interaction: discord.Interaction):
         vc = interaction.guild.voice_client
-        queue = await self.get_queue(guild=interaction.guild)
+        queue = vc.queue
 
         if not queue.is_empty:
             await vc.stop()
@@ -102,7 +102,8 @@ class music(commands.Cog):
 
     @group.command(name="queue", description="list queue")
     async def queue(self, interaction: discord.Interaction):
-        queue = await self.get_queue(guild=interaction.guild)
+        vc = interaction.guild.voice_client
+        queue = vc.queue
         if not queue:
             embed = Embed(title="📜 Playlist", description="The queue is empty.")
             await interaction.response.send_message(embed=embed)
@@ -113,8 +114,8 @@ class music(commands.Cog):
 
     @group.command(name="current_playing", description="what is currently playing")
     async def current_playing(self, interaction: discord.Interaction):
-        queue = await self.get_queue(guild=interaction.guild)
         vc = interaction.guild.voice_client
+        queue = vc.queue
 
         progressbar_length = 50
         progressbar = ""

@@ -52,7 +52,7 @@ class music(commands.Cog):
 #            await interaction.followup.send(embed=embed)
         
     async def play_next_track(self, guild):
-        vc = guild.voice.voice_client
+        vc = guild.voice_client
         queue = self.queue[guild.id]
 
         if not queue.is_empty:

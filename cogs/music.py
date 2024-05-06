@@ -39,13 +39,13 @@ class music(commands.Cog):
         queue.put(track)
 
         self.music_channel = interaction.channel
+        embed = Embed(title="🎵 Song added to the queue.", description=f'`{track.title} - {track.author}` was added to the queue.')
+        await interaction.followup.send(embed=embed)
         if not vc.playing:
-            embed = Embed(title="🎵 Song added to the queue.", description=f'`{track.title} - {track.author}` was added to the queue.')
-            await interaction.followup.send(embed=embed)
             await self.play_next_track(guild=interaction.guild)
-        else:
-            embed = Embed(title="🎵 Song added to the queue.", description=f'`{track.title} - {track.author}` was added to the queue.')
-            await interaction.followup.send(embed=embed)
+#        else:
+#            embed = Embed(title="🎵 Song added to the queue.", description=f'`{track.title} - {track.author}` was added to the queue.')
+#            await interaction.followup.send(embed=embed)
         
     async def play_next_track(self, guild):
         vc = self.vc[guild.id]
@@ -118,7 +118,7 @@ class music(commands.Cog):
                 progressbar += "▶"
                 continue
             if i > currentprogress:
-                progressbar += "▭"
+                progressbar += "-"
             else:
                 progressbar += "▬"
         embed = Embed(title="Currently playing", description=f'# {vc.current.title}\n### by {vc.current.author}\n{progressbar}\n- {strftime("%H:%M:%S", gmtime(vc.position / 1000))} - {strftime("%H:%M:%S", gmtime(vc.current.length / 1000))}')

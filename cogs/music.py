@@ -112,7 +112,7 @@ class music(commands.Cog):
         
         progressbar_length = 30
         progressbar = ""
-        currentprogress = (int(strftime("%H:%M:%S", gmtime(vc.position / 1000)) / strftime("%H:%M:%S", gmtime(vc.current.length / 1000)) * progressbar_length))
+        currentprogress = int(vc.position / vc.current.length * progressbar_length)
 
         for i in progressbar_length:
             if i == currentprogress:

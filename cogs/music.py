@@ -53,7 +53,7 @@ class music(commands.Cog):
         
     async def play_next_track(self, guild):
         vc = guild.voice_client
-        queue = self.queue[guild.id]
+        queue = await self.get_queue(guild=guild)
 
         if not queue.is_empty:
             track = queue.get()
@@ -86,7 +86,7 @@ class music(commands.Cog):
     @group.command(name="skip", description="skip song")
     async def skip(self, interaction: discord.Interaction):
         vc = interaction.guild.voice_client
-        queue = self.queue[interaction.guild.id]
+        queue = await self.get_queue(guild=interaction.guild)
 
         if not queue.is_empty:
             await vc.stop()
@@ -99,7 +99,7 @@ class music(commands.Cog):
 
     @group.command(name="queue", description="list queue")
     async def queue(self, interaction: discord.Interaction):
-        queue = self.queue[interaction.guild.id]
+        queue = await self.get_queue(guild=interaction.guild)
         if not queue:
             embed = Embed(title="📜 Playlist", description="The queue is empty.")
             await interaction.response.send_message(embed=embed)
@@ -110,7 +110,7 @@ class music(commands.Cog):
 
     @group.command(name="current_playing", description="what is currently playing")
     async def current_playing(self, interaction: discord.Interaction):
-        queue = self.get_queue(guild=interaction.guild)
+        queue = await self.get_queue(guild=interaction.guild)
         vc = interaction.guild.voice_client
 
         progressbar_length = 25

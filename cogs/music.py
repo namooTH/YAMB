@@ -56,6 +56,8 @@ class music(commands.Cog):
         vc = guild.voice_client
         queue = await vc.queue
 
+        print(queue)
+
         if not queue.is_empty:
             track = queue.get()
             await vc.play(track)

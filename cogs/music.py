@@ -54,7 +54,7 @@ class music(commands.Cog):
         
     async def play_next_track(self, guild):
         vc = guild.voice_client
-        queue = await vc.queue
+        queue = vc.queue
 
         print(queue)
 

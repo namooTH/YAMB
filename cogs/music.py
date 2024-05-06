@@ -124,7 +124,7 @@ class music(commands.Cog):
             if i > currentprogress:
                 progressbar += "-"
             else:
-                progressbar += "▬"
+                progressbar += "="
         embed = Embed(title="Currently playing", description=f'# {vc.current.title}\n### by {vc.current.author}\n{progressbar}\n- {strftime("%H:%M:%S", gmtime(vc.position / 1000))} - {strftime("%H:%M:%S", gmtime(vc.current.length / 1000))}')
         if queue:
             embed.add_field(name="Next up:", value=f"{queue[0].title} - {queue[0].author}" , inline=True)

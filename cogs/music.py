@@ -114,7 +114,7 @@ class music(commands.Cog):
         queue = await self.get_queue(guild=interaction.guild)
         vc = interaction.guild.voice_client
 
-        progressbar_length = 30
+        progressbar_length = 50
         progressbar = ""
         currentprogress = int(vc.position / vc.current.length * progressbar_length)
 

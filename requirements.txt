@@ -3,3 +3,4 @@ pillow
 pet-pet-gif
 pilmoji
 python-urbandict
+wavelink

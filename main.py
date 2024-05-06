@@ -16,6 +16,9 @@ class bot(commands.Bot):
         self.token = open("token.yml", "r").readline()
         self.cogsfolder = "cogs"
 
+        #stuff that should not be reset after cog reloading
+        self.music_queue = {}
+
     async def load_extensions(self):
         for file in os.listdir(self.cogsfolder):
             if file.endswith(".py"): 

@@ -11,8 +11,7 @@ from time import gmtime
 class music(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.queue = {}
-        self.vc = {}
+        self.queue = bot.music_queue
 
     group = app_commands.Group(name="music", description="music stuff")
 

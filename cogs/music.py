@@ -101,5 +101,14 @@ class music(commands.Cog):
             embed = Embed(title="📜 Playlist", description=queue_list)
             await interaction.response.send_message(embed=embed)
 
+    @group.command(name="current_playing", description="what is currently playing")
+    async def current_playing(self, interaction: discord.Interaction):
+        queue = self.queue[interaction.guild.id]
+        vc = self.vc[interaction.guild.id]
+
+        embed = Embed(title="Currently playing", description=f'`{vc.current.title} - {vc.current.author}`\n`{vc.current.position - vc.current.length} - {vc.current.length}`')
+        await interaction.response.send_message(embed=embed)
+
+
 async def setup(bot):
     await bot.add_cog(music(bot))

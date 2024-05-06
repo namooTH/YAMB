@@ -106,7 +106,7 @@ class music(commands.Cog):
         queue = self.queue[interaction.guild.id]
         vc = self.vc[interaction.guild.id]
 
-        embed = Embed(title="Currently playing", description=f'`{vc.current.title} - {vc.current.author}`\n`{vc.position} - {vc.current.length}`')
+        embed = Embed(title="Currently playing", description=f'`{vc.current.title} - {vc.current.author}`\n`{vc.position / 1000} - {vc.current.length / 1000}`')
         await interaction.response.send_message(embed=embed)
 
 

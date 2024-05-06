@@ -25,11 +25,10 @@ class music(commands.Cog):
         await interaction.response.defer()
         if not interaction.guild.voice_client:
             await interaction.user.voice.channel.connect(cls=wavelink.Player)
-        self.vc[interaction.guild.id] = interaction.guild.voice_client
         if interaction.guild.id not in self.queue:
             self.queue[interaction.guild.id] = Queue()
 
-        vc = self.vc[interaction.guild.id]
+        vc = interaction.guild.voice_client
         queue = self.queue[interaction.guild.id]
 
         tracks: wavelink.Search = await wavelink.Playable.search(search)
@@ -48,7 +47,7 @@ class music(commands.Cog):
 #            await interaction.followup.send(embed=embed)
         
     async def play_next_track(self, guild):
-        vc = self.vc[guild.id]
+        vc = guild.voice.voice_client
         queue = self.queue[guild.id]
 
         if not queue.is_empty:
@@ -59,7 +58,7 @@ class music(commands.Cog):
 
     @group.command(name="stop", description="stop the everything")
     async def stop(self, interaction: discord.Interaction):
-        vc = self.vc[interaction.guild.id]
+        vc = interaction.guild.voice_client
         await vc.stop()
         embed = Embed(title="⏹️ Music stopped", description="The music has been stopped.")
         await interaction.response.send_message(embed=embed)
@@ -67,21 +66,21 @@ class music(commands.Cog):
 
     @group.command(name="pause", description="pause everything")
     async def pause(self, interaction: discord.Interaction):
-        vc = self.vc[interaction.guild.id]
+        vc = interaction.guild.voice_client
         await vc.pause(True)
         embed = Embed(title="⏸️ Music paused", description="The music has been paused")
         await interaction.response.send_message(embed=embed)
 
     @group.command(name="resume", description="pause everything")
     async def resume(self, interaction: discord.Interaction):
-        vc = self.vc[interaction.guild.id]
+        vc = interaction.guild.voice_client
         await vc.pause(False)
         embed = Embed(title="▶️ Music Resumed", description="The music has been resumed.")
         await interaction.response.send_message(embed=embed)
 
     @group.command(name="skip", description="skip song")
     async def skip(self, interaction: discord.Interaction):
-        vc = self.vc[interaction.guild.id]
+        vc = interaction.guild.voice_client
         queue = self.queue[interaction.guild.id]
 
         if not queue.is_empty:
@@ -107,7 +106,7 @@ class music(commands.Cog):
     @group.command(name="current_playing", description="what is currently playing")
     async def current_playing(self, interaction: discord.Interaction):
         queue = self.queue[interaction.guild.id]
-        vc = self.vc[interaction.guild.id]
+        vc = interaction.guild.voice_client
 
         progressbar_length = 25
         progressbar = ""

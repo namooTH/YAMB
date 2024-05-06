@@ -17,7 +17,7 @@ class music(commands.Cog):
     group = app_commands.Group(name="music", description="music stuff")
 
     async def get_queue(self, guild):
-        if self.queue[guild.id]:
+        if guild.id in self.queue:
             return self.queue[guild.id]
         return Queue()
 

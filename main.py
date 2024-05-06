@@ -16,7 +16,7 @@ class bot(commands.Bot):
         self.token = open("token.yml", "r").readline()
         self.cogsfolder = "cogs"
 
-        #stuff that should not be reset after cog reloading
+        #stuff that should not be reset after cog reload
         self.music_queue = {}
 
     async def load_extensions(self):
@@ -36,7 +36,7 @@ async def reload(ctx, cog):
         await bot.reload_extension(f"{bot.cogsfolder}.{cog}")
         await ctx.send(f"Reloaded {cog}")
 
-@bot.command(name="sync") 
+@bot.command()
 async def sync(ctx):
     if ctx.author.id == 899113384660844634: # add ur own id 
         synced = await bot.tree.sync()

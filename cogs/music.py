@@ -11,14 +11,13 @@ from time import gmtime
 class music(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.queue = bot.music_queue
 
     group = app_commands.Group(name="music", description="music stuff")
 
     async def get_queue(self, guild):
-        if guild.id in self.queue:
-            return self.queue[guild.id]
-        return Queue()
+        if not guild.id in self.bot.music_queue:
+            self.bot.music_queue[guild.id] = Queue()
+        return self.bot.music_queue[guild.id]
 
     @commands.Cog.listener()
     async def on_wavelink_track_end(self, payload):
@@ -29,15 +28,17 @@ class music(commands.Cog):
         await interaction.response.defer()
         if not interaction.guild.voice_client:
             await interaction.user.voice.channel.connect(cls=wavelink.Player)
-        if interaction.guild.id not in self.queue:
-            self.queue[interaction.guild.id] = Queue()
 
         vc = interaction.guild.voice_client
-        queue = self.queue[interaction.guild.id]
+        queue = await self.get_queue(guild=interaction.guild)
 
-        tracks: wavelink.Search = await wavelink.Playable.search(search)
+        try:
+            tracks: wavelink.Search = await wavelink.Playable.search(search)
+        except Exception as e:
+            return await interaction.response.send_message(f'Something stupid as occured please try again:\n```{e}```')
         if not tracks:
             return await interaction.response.send_message(f'It was not possible to find the song: `{search}`')
+
         track: wavelink.Playable = tracks[0]
         track.extras = {"requester": interaction.user.name}
         queue.put(track)

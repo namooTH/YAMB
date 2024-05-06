@@ -24,8 +24,8 @@ class music(commands.Cog):
     async def music(self, interaction: discord.Interaction, search: str):
         await interaction.response.defer()
         if not interaction.guild.voice_client:
-            self.vc[interaction.guild.id] = ""
-            self.vc[interaction.guild.id] = await interaction.user.voice.channel.connect(cls=wavelink.Player)
+            await interaction.user.voice.channel.connect(cls=wavelink.Player)
+        self.vc[interaction.guild.id] = interaction.guild.voice_client
         if interaction.guild.id not in self.queue:
             self.queue[interaction.guild.id] = Queue()
 
@@ -109,7 +109,6 @@ class music(commands.Cog):
         queue = self.queue[interaction.guild.id]
         vc = self.vc[interaction.guild.id]
 
-        
         progressbar_length = 25
         progressbar = ""
         currentprogress = int(vc.position / vc.current.length * progressbar_length)

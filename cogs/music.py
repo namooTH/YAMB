@@ -109,7 +109,22 @@ class music(commands.Cog):
         queue = self.queue[interaction.guild.id]
         vc = self.vc[interaction.guild.id]
 
-        embed = Embed(title="Currently playing", description=f'`{vc.current.title} - {vc.current.author}`\n`{strftime("%H:%M:%S", gmtime(vc.position / 1000))} - {strftime("%H:%M:%S", gmtime(vc.current.length / 1000))}`')
+        
+        progressbar_length = 30
+        progressbar = ""
+        currentprogress = (int(strftime("%H:%M:%S", gmtime(vc.position / 1000)) / strftime("%H:%M:%S", gmtime(vc.current.length / 1000)) * progressbar_length))
+
+        for i in progressbar_length:
+            if i == currentprogress:
+                progressbar += "▶"
+                continue
+            if i > currentprogress:
+                progressbar += "▭"
+            else:
+                progressbar += "▬"
+
+
+        embed = Embed(title="Currently playing", description=f'# {vc.current.title}\n### by {vc.current.author}\n{progressbar}\n- {strftime("%H:%M:%S", gmtime(vc.position / 1000))} - {strftime("%H:%M:%S", gmtime(vc.current.length / 1000))}')
         await interaction.response.send_message(embed=embed)
 
 

@@ -36,11 +36,11 @@ class music(commands.Cog):
 
         self.music_channel = interaction.channel
         if not vc.playing:
-            embed = Embed(title="🎵 Song added to the queue.", description=f'`{track.title}` was added to the queue.')
+            embed = Embed(title="🎵 Song added to the queue.", description=f'`{track.title} - {track.author}` was added to the queue.')
             await interaction.response.send_message(embed=embed)
             await self.play_next_track(guild=interaction.guild)
         else:
-            embed = Embed(title="🎵 Song added to the queue.", description=f'`{track.title}` was added to the queue.')
+            embed = Embed(title="🎵 Song added to the queue.", description=f'`{track.title} - {track.author}` was added to the queue.')
             await interaction.response.send_message(embed=embed)
         
     async def play_next_track(self, guild):
@@ -48,9 +48,9 @@ class music(commands.Cog):
         queue = self.queue[guild.id]
 
         if not queue.is_empty:
-            next_track = queue.get()
-            await vc.play(next_track)
-            embed = Embed(title="🎵 playing now", description=f'`{next_track.title}` is playing now.')
+            track = queue.get()
+            await vc.play(track)
+            embed = Embed(title="🎵 playing now", description=f'`{track.title} - {track.author}` is playing now.')
             await self.music_channel.send(embed=embed)
 
     @group.command(name="stop", description="stop the everything")

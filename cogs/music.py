@@ -41,7 +41,7 @@ class music(commands.Cog):
 
         track: wavelink.Playable = tracks[0]
         track.extras = {"requester": interaction.user.name}
-        queue.put(track)
+        vc.queue.put(track)
 
         self.music_channel = interaction.channel
         embed = Embed(title="🎵 Song added to the queue.", description=f'`{track.title} - {track.author}` was added to the queue.')
@@ -57,7 +57,7 @@ class music(commands.Cog):
         queue = await self.get_queue(guild=guild)
 
         if not queue.is_empty:
-            track = queue.get()
+            track = vc.queue.get()
             await vc.play(track)
             embed = Embed(title="🎵 playing now", description=f'`{track.title} - {track.author}` is playing now.')
             await self.music_channel.send(embed=embed)

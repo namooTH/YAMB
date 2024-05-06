@@ -19,6 +19,7 @@ class music(commands.Cog):
 
     @group.command(name="play", description="song name or the link")
     async def music(self, interaction: discord.Interaction, search: str):
+        await interaction.response.defer()
         if not interaction.guild.voice_client:
             self.vc[interaction.guild.id] = ""
             self.vc[interaction.guild.id] = await interaction.user.voice.channel.connect(cls=wavelink.Player)
@@ -37,11 +38,11 @@ class music(commands.Cog):
         self.music_channel = interaction.channel
         if not vc.playing:
             embed = Embed(title="🎵 Song added to the queue.", description=f'`{track.title} - {track.author}` was added to the queue.')
-            await interaction.response.send_message(embed=embed)
+            await interaction.followup.send(embed=embed)
             await self.play_next_track(guild=interaction.guild)
         else:
             embed = Embed(title="🎵 Song added to the queue.", description=f'`{track.title} - {track.author}` was added to the queue.')
-            await interaction.response.send_message(embed=embed)
+            await interaction.followup.send(embed=embed)
         
     async def play_next_track(self, guild):
         vc = self.vc[guild.id]

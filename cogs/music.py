@@ -35,7 +35,7 @@ class music(commands.Cog):
         try:
             tracks: wavelink.Search = await wavelink.Playable.search(search)
         except Exception as e:
-            return await interaction.response.send_message(f'Something stupid as occured please try again:\n```{e}```')
+            return await interaction.response.send_message(f'Something stupid has occured please try again:\n```{e}```')
         if not tracks:
             return await interaction.response.send_message(f'It was not possible to find the song: `{search}`')
 
@@ -126,7 +126,7 @@ class music(commands.Cog):
                 progressbar += "-"
             else:
                 progressbar += "="
-        embed = Embed(description=f'# {vc.current.title}\n### by {vc.current.author}\n{progressbar}\n- {strftime("%H:%M:%S", gmtime(vc.position / 1000))} - {strftime("%H:%M:%S", gmtime(vc.current.length / 1000))}')
+        embed = Embed(color=discord.Color.from_rgb(237, 154, 225), description=f'# {vc.current.title}\n### by {vc.current.author}\n{progressbar}\n- {strftime("%H:%M:%S", gmtime(vc.position / 1000))} - {strftime("%H:%M:%S", gmtime(vc.current.length / 1000))}')
         embed.add_field(name="Requested by:", value=f'`{vc.current.extras.requester}`', inline=True)
         if queue:
             embed.add_field(name="Next up:", value=f"`{queue[0].title} - {queue[0].author}`" , inline=True)

@@ -80,7 +80,7 @@ class music(commands.Cog):
         vc = self.vc[interaction.guild.id]
         queue = self.queue[interaction.guild.id]
 
-        if not self.queue.is_empty:
+        if not queue.is_empty:
             await vc.stop()
             next_track = queue.pop()
             await vc.play(next_track)

@@ -121,7 +121,7 @@ class music(commands.Cog):
         vc = interaction.guild.voice_client
         queue = vc.queue
 
-        progressbar_length = 50
+        progressbar_length = 30
         progressbar = ""
         currentprogress = int(vc.position / vc.current.length * progressbar_length)
 
@@ -134,7 +134,7 @@ class music(commands.Cog):
             if i > currentprogress:
                 progressbar += "⋯"
             else:
-                progressbar += "⎯"
+                progressbar += "-"
         artwork = Image.open(BytesIO(requests.get(vc.current.artwork).content))
         median = ImageStat.Stat(artwork).median
         embed = Embed(color=discord.Color.from_rgb(median[0], median[1], median[2]), description=f'# {vc.current.title}\n### by {vc.current.author}\n**{progressbar}**\n- {strftime("%H:%M:%S", gmtime(vc.position / 1000))} - {strftime("%H:%M:%S", gmtime(vc.current.length / 1000))}')

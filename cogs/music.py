@@ -60,11 +60,10 @@ class music(commands.Cog):
         vc = guild.voice_client
         queue = vc.queue
 
-        if not queue.is_empty:
-            track = queue.get()
-            await vc.play(track)
-            embed = Embed(title="🎵 playing now", description=f'`{track.title} - {track.author}` is playing now.')
-            await self.music_channel.send(embed=embed)
+        track = queue.get()
+        await vc.play(track)
+        embed = Embed(title="🎵 playing now", description=f'`{track.title} - {track.author}` is playing now.')
+        await self.music_channel.send(embed=embed)
 
     @group.command(name="stop", description="stop the everything")
     async def stop(self, interaction: discord.Interaction):

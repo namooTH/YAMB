@@ -143,13 +143,25 @@ class music(commands.Cog):
         await interaction.response.send_message(embed=embed)
 
     @group.command(name="loop", description="loop songs")
-    async def loop(self, interaction: discord.Interaction):
+    @app_commands.choices(loop_mode=[
+        app_commands.Choice(name="disable", value="normal"),
+        app_commands.Choice(name="loop entire queue", value="loop_all"),
+        app_commands.Choice(name="loop current song", value="loop")])
+        
+    async def loop(self, interaction: discord.Interaction, loop_mode: app_commands.Choice[str]):
         vc = interaction.guild.voice_client
         queue = vc.queue
 
-        queue.mode = wavelink.QueueMode.loop
+        match loop_mode.value:
+            case "normal":
+                queue.mode = wavelink.QueueMode.normal
+            case "loop_all":
+                queue.mode = wavelink.QueueMode.loop_all
+            case "loop":
+                queue.mode = wavelink.QueueMode.loop
+            
 
-        embed = Embed(description=f'success')
+        embed = Embed(title="loop", description=f'succesfully set looping mode to `{queue.mode}`')
         await interaction.response.send_message(embed=embed)
 
 

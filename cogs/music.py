@@ -147,7 +147,7 @@ class music(commands.Cog):
         vc = interaction.guild.voice_client
         queue = vc.queue
 
-        queue.mode = wavelink.QueueMode().loop
+        queue.mode = wavelink.QueueMode("loop")
 
         embed = Embed(description=f'success')
         await interaction.response.send_message(embed=embed)

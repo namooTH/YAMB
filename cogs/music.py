@@ -127,9 +127,10 @@ class music(commands.Cog):
 
         for i in range(progressbar_length):
             if i == currentprogress:
-                progressbar += "▶"
                 if vc.paused:
                     progressbar += "⏸"
+                    continue
+                progressbar += "▶"
                 continue
             if i > currentprogress:
                 progressbar += "⋯"

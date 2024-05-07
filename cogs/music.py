@@ -60,8 +60,6 @@ class music(commands.Cog):
         vc = guild.voice_client
         queue = vc.queue
 
-        print(queue)
-
         if not queue.is_empty:
             track = queue.get()
             await vc.play(track)
@@ -142,6 +140,16 @@ class music(commands.Cog):
         if queue:
             embed.add_field(name="Next up:", value=f"`{queue[0].title} - {queue[0].author}`" , inline=True)
         embed.set_thumbnail(url=vc.current.artwork)
+        await interaction.response.send_message(embed=embed)
+
+    @group.command(name="loop", description="loop songs")
+    async def loop(self, interaction: discord.Interaction):
+        vc = interaction.guild.voice_client
+        queue = vc.queue
+
+        queue.mode = wavelink.QueueMode().loop
+
+        embed = Embed(description=f'success')
         await interaction.response.send_message(embed=embed)
 
 

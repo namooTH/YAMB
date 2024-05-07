@@ -8,6 +8,10 @@ from wavelink import Queue
 from time import strftime
 from time import gmtime
 
+from io import BytesIO
+import requests
+from PIL import Image, ImageStat
+
 class music(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -129,7 +133,9 @@ class music(commands.Cog):
                 progressbar += "-"
             else:
                 progressbar += "="
-        embed = Embed(title=f"# {vc.current.title}", color=discord.Color.from_rgb(237, 154, 225), description=f'### by {vc.current.author}\n{progressbar}\n- {strftime("%H:%M:%S", gmtime(vc.position / 1000))} - {strftime("%H:%M:%S", gmtime(vc.current.length / 1000))}')
+        artwork = Image.open(BytesIO(requests.get(vc.current.artwork).content))
+        median = ImageStat.Stat(artwork).median
+        embed = Embed(title=f"# {vc.current.title}", color=discord.Color.from_rgb(median[0], median[1], median[2]), description=f'### by {vc.current.author}\n{progressbar}\n- {strftime("%H:%M:%S", gmtime(vc.position / 1000))} - {strftime("%H:%M:%S", gmtime(vc.current.length / 1000))}')
         embed.add_field(name="Requested by:", value=f'`{vc.current.extras.requester}`', inline=True)
         if queue:
             embed.add_field(name="Next up:", value=f"`{queue[0].title} - {queue[0].author}`" , inline=True)

@@ -39,9 +39,9 @@ class music(commands.Cog):
         try:
             tracks: wavelink.Search = await wavelink.Playable.search(search)
         except Exception as e:
-            return await interaction.followup.send_message(f'Something stupid has occured please try again:\n```{e}```')
+            return await interaction.followup.send(f'Something stupid has occured please try again:\n```{e}```')
         if not tracks:
-            return await interaction.followup.send_message(f'It was not possible to find the song: `{search}`')
+            return await interaction.followup.send(f'It was not possible to find the song: `{search}`')
 
         track: wavelink.Playable = tracks[0]
         track.extras = {"requester": interaction.user.name}

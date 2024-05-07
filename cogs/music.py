@@ -96,8 +96,9 @@ class music(commands.Cog):
         queue = vc.queue
 
         if not queue.is_empty:
+            nextsong = queue[0]
             await vc.skip(force=True)
-            embed = Embed(title="⏭️ Song skipped", description=f'Playing the next song in the queue: `{queue[0].title}`.')
+            embed = Embed(title="⏭️ Song skipped", description=f'Playing the next song in the queue: `{nextsong.title}`.')
             await interaction.response.send_message(embed=embed)
         else:
             await interaction.response.send_message("There are no songs in the queue to skip")

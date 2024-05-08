@@ -23,7 +23,6 @@ class graph(commands.Cog):
 
     @commands.command()
     async def history(self, ctx):
-        self.allemoji["lastthingbroplswhatthefuck"] = self.lastmessage_time
         json.dump(self.allemoji, open("data/emoji.json", 'w'), indent=2)
         #entireting = r'(<.*?>)'
         justtheemojiname = r'<:(.*?):\d+>'

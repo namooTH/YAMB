@@ -37,7 +37,7 @@ class graph(commands.Cog):
                         else:
                             self.allemoji[emoji] = 1
                     self.lastmessage_time = message.created_at
-                return await self.history(self, ctx)
+                return await self.history(ctx)
 
             async for message in ctx.channel.history(limit=500, after=self.lastmessage_time):
                 finds = re.findall(justtheemojiname, message.content)
@@ -47,7 +47,7 @@ class graph(commands.Cog):
                     else:
                         self.allemoji[emoji] = 1
                 self.lastmessage_time = message.created_at
-            return await self.history(self, ctx)
+            return await self.history(ctx)
 
 
 

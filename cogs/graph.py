@@ -17,8 +17,8 @@ class graph(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def history(ctx, cog):
-        messages = await ctx.message.channel.history(limit=10).flatten() # Get the history of the channel where the command was invoked
+    async def history(self, ctx):
+        messages = await ctx.channel.history(limit=10).flatten() # Get the history of the channel where the command was invoked
         for message in messages: # Get only the messages and not any extra information
             print(message.content, sep="\n") # Print the messages and show each in a new line
 

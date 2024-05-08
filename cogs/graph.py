@@ -18,7 +18,7 @@ class graph(commands.Cog):
 
     @commands.command()
     async def history(self, ctx):
-        async for message in ctx.channel.history(limit=200):
+        async for message in ctx.channel.history(limit=500):
             print(message.content) # Print the messages and show each in a new line
 
 

@@ -17,12 +17,7 @@ class music(commands.Cog):
         self.bot = bot
 
     group = app_commands.Group(name="music", description="music stuff")
-
-    async def get_queue(self, guild):
-        if not guild.id in self.bot.music_queue:
-            self.bot.music_queue[guild.id] = Queue()
-        return self.bot.music_queue[guild.id]
-
+    
     @commands.Cog.listener()
     async def on_wavelink_track_end(self, payload):
         await self.play_next_track(guild=payload.player.guild)

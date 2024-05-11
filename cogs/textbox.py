@@ -287,7 +287,7 @@ class textbox(commands.Cog):
 
         data = await self.generatetextbox(avatar=port, text=text, name=nametag, animated=animated, border=border_style, asterisk=asterisk, fontfile=font, custom_background=custom_background, debug=debug)
         if debug:
-            await interaction.response.send_message(f"```{"\n".join(data[1])}```", file=data[0])
+            await interaction.response.send_message(f"```{'\n'.join(data[1])}```", file=data[0])
 
 async def setup(bot):
     await bot.add_cog(textbox(bot))

@@ -15,12 +15,16 @@ from pilmoji import Pilmoji
 import math
 import re
 
+import time
+
 class textbox(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    async def generatetextbox(self, text, avatar=None, name=None, animated=None, border=None, asterisk=None, fontfile=None, custom_background=None):
-        # setup stuff
+    async def generatetextbox(self, text, avatar=None, name=None, animated=None, border=None, asterisk=None, fontfile=None, custom_background=None, debug=None):
+        debug = []
+
+        # setup stuff                
         if fontfile:
             fontfile = f"data/fonts/{fontfile}"
         else:
@@ -29,6 +33,7 @@ class textbox(commands.Cog):
         if asterisk:
             text = "* " + text
 
+        start_time = time.time()
         # border & background
         if not border: # default setting
             border = Image.open("data/textbox/border/dt.png")
@@ -65,6 +70,9 @@ class textbox(commands.Cog):
         bg.putalpha(0)
         img = Image.composite(img,bg,mask)
 
+        debug.append(f"background took {time.time() - start_time}")
+
+        start_time = time.time()
         # draw port if exists
         if avatar:
             avatar.thumbnail((134,134), resample=Image.Resampling.NEAREST)
@@ -74,7 +82,9 @@ class textbox(commands.Cog):
                 img.paste(avatar, (port_x_pos, middle_img_y), avatar)
             except:  # noqa: E722
                 img.paste(avatar, (port_x_pos, middle_img_y))
+        debug.append(f"port took {time.time() - start_time}")
 
+        start_time = time.time()
         # init font
         draw = ImageDraw.Draw(img)
         font = ImageFont.truetype(fontfile, 30)
@@ -83,15 +93,16 @@ class textbox(commands.Cog):
         else:
             textpos = 12 + x_offset
         textposlimit = 549 + x_offset
+        
         lines = []
 
-        # autowrap text (word mode) (also math jumpscare)
-
-        #finds emoji and not replace it
+        # finds emoji and not replace it
         pattern = r'(<.*?>)'
         replacement = '■'
         finds = re.findall(pattern, text)
         text = re.sub(pattern, replacement, text)
+
+        # autowrap text (word mode) (also math jumpscare)
 
         while True:
             if len(lines) >= 3:
@@ -102,13 +113,15 @@ class textbox(commands.Cog):
                 lines.append(text)
                 break
             length = math.ceil((textlength - (textposlimit - textpos)) / (textlength / len(text)))
+            cutted = font.getlength(text[:int(len(text) - length)]) 
 
             # if text is too long or too short
-            while font.getlength(text[:int(len(text) - length)]) > textposlimit - textpos:
+            while cutted > textposlimit - textpos:
                 length -= 1
-            while font.getlength(text[:int(len(text) - length)]) - (textposlimit - textpos) < -100:
+                cutted = font.getlength(text[:int(len(text) - length)])
+            while (cutted - (textposlimit - textpos)) < -100:
                 length += 1
-
+                cutted = font.getlength(text[:int(len(text) - length)])
             nextline = text[int(len(text) - length):]
             text = text[:int(len(text) - length)]
 
@@ -124,19 +137,22 @@ class textbox(commands.Cog):
             text = nextline
 
         # assemble
-        text = ""
-        for line in range(len(lines)):
-            text += lines[line] + "\n"
+        text = '\n'.join(t for t in lines)
         for emoji in finds:
             text = text.replace(replacement, emoji, 1)
+        
+        debug.append(f"text preparing took {time.time() - start_time}")
 
+        start_time = time.time()
         # nametag
         if name:
             font = ImageFont.truetype(fontfile, 16)
             namepos = (((int(134 - font.getlength(name))) / 2) + x_offset, 114 + y_offset)
             draw.text((namepos[0] + 2, namepos[1] + 2),name,(0,0,0),font=font)
             draw.text(namepos,name,(255,255,255),font=font)
+        debug.append(f"nametag took {time.time() - start_time}")
 
+        start_time = time.time()
         # put border
         img.paste(border, (0, 0), border)
 
@@ -162,7 +178,8 @@ class textbox(commands.Cog):
             with BytesIO() as image_binary:
                 images[0].save(image_binary, 'GIF', save_all=True,append_images=images[1:],duration=duration_frames,loop=0)
                 image_binary.seek(0)
-                return discord.File(fp=image_binary, filename='image.gif')
+                debug.append(f"border & dialog text took {time.time() - start_time}")
+                return [discord.File(fp=image_binary, filename='image.gif'), debug]
         else:
             if not custom_background:
                 with Pilmoji(img) as pilmoji:
@@ -175,7 +192,8 @@ class textbox(commands.Cog):
             with BytesIO() as image_binary:
                 img.save(image_binary, 'PNG')
                 image_binary.seek(0)
-                return discord.File(fp=image_binary, filename='image.png')
+                debug.append(f"border & dialog text took {time.time() - start_time}")
+                return [discord.File(fp=image_binary, filename='image.png'), debug]
 
 
 
@@ -186,7 +204,7 @@ class textbox(commands.Cog):
             return
         if message.channel.id == 1234430787924000778:
             image = await self.generatetextbox(avatar=Image.open(BytesIO(requests.get(message.author.avatar.url).content)), text=message.clean_content)
-            await message.channel.send(file=image)
+            await message.channel.send(file=image[0])
             await message.delete()
         if message.content.lower() == "mtbq":
             messager = await message.channel.fetch_message(message.reference.message_id)
@@ -195,7 +213,7 @@ class textbox(commands.Cog):
             if messager.author == self.bot.user:
                 return
             image = await self.generatetextbox(avatar=Image.open(BytesIO(requests.get(messager.author.avatar.url).content)), text=messager.content, name=messager.author.name)
-            await message.channel.send("generated by deltafall-bot", file=image, reference=message)
+            await message.channel.send("generated by deltafall-bot", file=image[0], reference=message)
 
 
 
@@ -231,7 +249,10 @@ class textbox(commands.Cog):
         app_commands.Choice(name="bratty", value="bratty.webp"),
         app_commands.Choice(name="catti", value="catti.webp"),
         app_commands.Choice(name="catty", value="catty.webp")])
-        
+    @app_commands.choices(debug=[
+        app_commands.Choice(name="Yes", value="True"),
+        app_commands.Choice(name="No", value="False")])
+
     async def textbox(
         self,
         interaction: discord.Interaction,
@@ -243,7 +264,8 @@ class textbox(commands.Cog):
         portrait: Optional[app_commands.Choice[str]],
         custom_portrait: Optional[discord.Attachment],
         custom_background: Optional[discord.Attachment],
-        nametag: Optional[str]):
+        nametag: Optional[str],
+        debug: Optional[app_commands.Choice[str]]):
         port = None
         if portrait and not custom_portrait:
             port = Image.open(f"data/textbox/portraits/{portrait.value}")
@@ -254,6 +276,8 @@ class textbox(commands.Cog):
             animated = True
         if asterisk and asterisk.value == "True":
             asterisk = True
+        if debug and debug.value == "True":
+            debug = True
         if font:
             font = font.value
         if custom_background:
@@ -261,8 +285,9 @@ class textbox(commands.Cog):
         if border_style:
             border_style = border_style.value
 
-        image = await self.generatetextbox(avatar=port, text=text, name=nametag, animated=animated, border=border_style, asterisk=asterisk, fontfile=font, custom_background=custom_background)
-        await interaction.response.send_message(file=image)
+        data = await self.generatetextbox(avatar=port, text=text, name=nametag, animated=animated, border=border_style, asterisk=asterisk, fontfile=font, custom_background=custom_background, debug=debug)
+        if debug:
+            await interaction.response.send_message(f"```{"\n".join(data[1])}```", file=data[0])
 
 async def setup(bot):
     await bot.add_cog(textbox(bot))

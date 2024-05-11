@@ -21,7 +21,7 @@ class textbox(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    async def generatetextbox(self, text, avatar=None, name=None, animated=None, border=None, asterisk=None, fontfile=None, custom_background=None, debug=None):
+    async def generatetextbox(self, text, avatar=None, name=None, animated=None, border=None, asterisk=None, fontfile=None, custom_background=None):
         debug = []
 
         # setup stuff                
@@ -33,7 +33,7 @@ class textbox(commands.Cog):
         if asterisk:
             text = "* " + text
 
-        start_time = time.time_ns()
+        start_time = time.time()
         # border & background
         if not border: # default setting
             border = Image.open("data/textbox/border/dt.png")
@@ -70,9 +70,9 @@ class textbox(commands.Cog):
         bg.putalpha(0)
         img = Image.composite(img,bg,mask)
 
-        debug.append(f"background took {((time.time_ns() - start_time) / (10 ** 9)) / (10 ** 9)}")
+        debug.append(f"background took {time.time() - start_time}")
 
-        start_time = time.time_ns()
+        start_time = time.time()
         # draw port if exists
         if avatar:
             avatar.thumbnail((134,134), resample=Image.Resampling.NEAREST)
@@ -82,9 +82,9 @@ class textbox(commands.Cog):
                 img.paste(avatar, (port_x_pos, middle_img_y), avatar)
             except:  # noqa: E722
                 img.paste(avatar, (port_x_pos, middle_img_y))
-        debug.append(f"port took {((time.time_ns() - start_time) / (10 ** 9)) / (10 ** 9)}")
+        debug.append(f"port took {time.time() - start_time}")
 
-        start_time = time.time_ns()
+        start_time = time.time()
         # init font
         draw = ImageDraw.Draw(img)
         font = ImageFont.truetype(fontfile, 30)
@@ -141,18 +141,18 @@ class textbox(commands.Cog):
         for emoji in finds:
             text = text.replace(replacement, emoji, 1)
         
-        debug.append(f"text preparing took {((time.time_ns() - start_time) / (10 ** 9)) / (10 ** 9)}")
+        debug.append(f"text preparing took {time.time() - start_time}")
 
-        start_time = time.time_ns()
+        start_time = time.time()
         # nametag
         if name:
             font = ImageFont.truetype(fontfile, 16)
             namepos = (((int(134 - font.getlength(name))) / 2) + x_offset, 114 + y_offset)
             draw.text((namepos[0] + 2, namepos[1] + 2),name,(0,0,0),font=font)
             draw.text(namepos,name,(255,255,255),font=font)
-        debug.append(f"nametag took {(time.time_ns() - start_time) / (10 ** 9)}")
+        debug.append(f"nametag took {time.time() - start_time}")
 
-        start_time = time.time_ns()
+        start_time = time.time()
         # put border
         img.paste(border, (0, 0), border)
 
@@ -178,7 +178,7 @@ class textbox(commands.Cog):
             with BytesIO() as image_binary:
                 images[0].save(image_binary, 'GIF', save_all=True,append_images=images[1:],duration=duration_frames,loop=0)
                 image_binary.seek(0)
-                debug.append(f"border & dialog text took {(time.time_ns() - start_time) / (10 ** 9)}")
+                debug.append(f"border & dialog text took {time.time() - start_time}")
                 return [discord.File(fp=image_binary, filename='image.gif'), debug]
         else:
             if not custom_background:
@@ -192,7 +192,7 @@ class textbox(commands.Cog):
             with BytesIO() as image_binary:
                 img.save(image_binary, 'PNG')
                 image_binary.seek(0)
-                debug.append(f"border & dialog text took {(time.time_ns() - start_time) / (10 ** 9)}")
+                debug.append(f"border & dialog text took {time.time() - start_time}")
                 return [discord.File(fp=image_binary, filename='image.png'), debug]
 
 
@@ -285,10 +285,11 @@ class textbox(commands.Cog):
         if border_style:
             border_style = border_style.value
 
-        data = await self.generatetextbox(avatar=port, text=text, name=nametag, animated=animated, border=border_style, asterisk=asterisk, fontfile=font, custom_background=custom_background, debug=debug)
+        data = await self.generatetextbox(avatar=port, text=text, name=nametag, animated=animated, border=border_style, asterisk=asterisk, fontfile=font, custom_background=custom_background)
         if debug:
             debug = '\n'.join(data[1])
-            await interaction.response.send_message(f"```{debug}```", file=data[0])
+            return await interaction.response.send_message(f"```{debug} ```", file=data[0])
+        return await interaction.response.send_message(file=data[0])
 
 async def setup(bot):
     await bot.add_cog(textbox(bot))

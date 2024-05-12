@@ -14,7 +14,7 @@ class messagefun(commands.Cog):
     async def on_message(self, message):
         if message.author == self.bot.user:
             return
-        if message.content.lower() in "@someone":
+        if "@someone" in message.content.lower():
             members = message.guild.members
             await message.channel.send(f'<@{members[random.randint(0, len(members) - 1)].id}>', reference=message)
 

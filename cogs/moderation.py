@@ -2,13 +2,19 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 
-import random
+#import random
 #from typing import Optional
-
+import yaml
 
 class mod(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+    
+    async def purge(self, channel, number, user=None):
+        await channel.purge(limit=number)
+
+    async def delete(self, message):
+        await message.delete()
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -26,7 +32,7 @@ class mod(commands.Cog):
 
         errors = []
         actions = []
-        # parser
+        # parser (might migrate this later...)
         for a in action:
             root_action = ""
             child_action = None
@@ -41,8 +47,7 @@ class mod(commands.Cog):
                         additional_info = ""
                         if is_assigned:
                             try:
-                                child_action = eval(rawaction)
-                                rawaction = ""
+                                child_action = yaml.safe_load(rawaction)
                                 break
                             except Exception as e:
                                 additional_info = f"\n```{e}```"
@@ -50,8 +55,7 @@ class mod(commands.Cog):
                                 break
                         root_action += rawaction[0]
                 rawaction = rawaction[1:]
-            actions.append({root_action: child_action})
-
+            actions.append({root_action: child_action})            
 
         # execute
         for d in actions:
@@ -60,18 +64,18 @@ class mod(commands.Cog):
                     match var[0]:
 
                         # requires no parameters
-                        case "d":
+                        case "d" | "delete":
                             messager = await message.channel.fetch_message(message.reference.message_id)
-                            await messager.delete()
+                            await self.delete(message=messager)
 
                         # requires parameters
-                        case "p":
+                        case "p" | "purge":
                             allowedtype = (int)
                             if isinstance(var[1], allowedtype):
-                                await message.channel.purge(limit=var[1])
-                                continue
-                            errors.append(f"invaild action at `{var[0]}`: {type(var[1])} not in {allowedtype}")
-                            break
+                                await self.purge(channel=message.channel, number=var[1])
+                            else:
+                                errors.append(f"invaild action at `{var[0]}`: {type(var[1])} not in {allowedtype}")
+                                break
 
                         # what the fuck
                         case _:
@@ -81,9 +85,9 @@ class mod(commands.Cog):
                 except Exception as e:
                     errors.append((f"invaild action at `{var[0]}`:\n```{e}```"))
                     break
-        
-        errors = '\n'.join(errors)
-        await message.channel.send(errors, reference=message)
+        if errors:
+            errors = '\n'.join(errors)
+            await message.channel.send(errors, reference=message)
         await message.delete()
         
 

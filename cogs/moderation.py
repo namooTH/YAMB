@@ -56,18 +56,23 @@ class mod(commands.Cog):
         # do it
         for d in actions:
             for var in d.items():
-                match var[0]:
+                try:
+                    match var[0]:
 
-                    case "d":
-                        messager = await message.channel.fetch_message(message.reference.message_id)
-                        await messager.delete()
-                    case "p":
-                        allowedtype = (int)
-                        if isinstance(var[1], allowedtype):
-                            await message.channel.purge(limit=var[1])
-                            continue
-                        await message.channel.send((f"invaild action at `{var[0]}`: {type(var[1])} not in {allowedtype}"), reference=message)
-                        break
+                        case "d":
+                            messager = await message.channel.fetch_message(message.reference.message_id)
+                            await messager.delete()
+                        case "p":
+                            allowedtype = (int)
+                            if isinstance(var[1], allowedtype):
+                                await message.channel.purge(limit=var[1])
+                                continue
+                            await message.channel.send((f"invaild action at `{var[0]}`: {type(var[1])} not in {allowedtype}"), reference=message)
+                            break
+
+                except Exception as e:
+                    await message.channel.send((f"invaild action at `{var[0]}`:\n```{e}```"), reference=message)
+                    break
 
         await message.delete()
         

@@ -82,7 +82,7 @@ class mod(commands.Cog):
                     errors.append((f"invaild action at `{var[0]}`:\n```{e}```"))
                     break
         
-        errors = ['\n'.join(errors)]
+        errors = '\n'.join(errors)
         await message.channel.send(errors, reference=message)
         await message.delete()
         

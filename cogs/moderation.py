@@ -27,15 +27,13 @@ class mod(commands.Cog):
 
         # parser
         for a in action:
-            root_action = None
+            root_action = ""
             child_action = None
             is_assigned = False
             rawaction = a
 
             while len(rawaction) > 0:
                 match rawaction[0]:
-                    case "d" | 'p':
-                        root_action = rawaction[0]
                     case "=":
                         is_assigned = True
                     case _:
@@ -46,9 +44,10 @@ class mod(commands.Cog):
                                 rawaction = ""
                                 break
                             except Exception as e:
-                                additional_info = f"\n```{e}```" 
-                        await message.channel.send((f"invaild action at `{rawaction}`{additional_info}"), reference=message)
-                        break
+                                additional_info = f"\n```{e}```"
+                                await message.channel.send((f"invaild action at `{rawaction}`{additional_info}"), reference=message)
+                                break
+                        root_action += rawaction[0]
                 rawaction = rawaction[1:]
             actions.append({root_action: child_action})
 
@@ -68,6 +67,10 @@ class mod(commands.Cog):
                                 await message.channel.purge(limit=var[1])
                                 continue
                             await message.channel.send((f"invaild action at `{var[0]}`: {type(var[1])} not in {allowedtype}"), reference=message)
+                            break
+
+                        case _:
+                            await message.channel.send((f"invaild action: `{var[0]}`"), reference=message)
                             break
 
                 except Exception as e:

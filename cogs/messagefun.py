@@ -1,6 +1,8 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
+
+import random
 #from typing import Optional
 
 
@@ -15,7 +17,7 @@ class messagefun(commands.Cog):
         match message.content.lower():
             case "@someone":
                 members = message.guild.members
-                await message.channel.send(f'<@{members[len(members)].id}>', reference=message)
+                await message.channel.send(f'<@{members[random.randint(0, len(members) - 1)].id}>', reference=message)
 
 async def setup(bot):
     await bot.add_cog(messagefun(bot))

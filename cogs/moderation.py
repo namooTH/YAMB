@@ -34,9 +34,8 @@ class mod(commands.Cog):
 
             while len(rawaction) > 0:
                 match rawaction[0]:
-                    case "d":
-                        root_action = "d"
-
+                    case "d" | 'p':
+                        root_action = rawaction[0]
                     case "=":
                         is_assigned = True
                     case _:
@@ -62,6 +61,15 @@ class mod(commands.Cog):
                     case "d":
                         messager = await message.channel.fetch_message(message.reference.message_id)
                         await messager.delete()
+                    case "p":
+                        allowedtype = [int]
+                        if len(var) < 2:
+                            await message.channel.send((f"invaild action at `{var[0]}`: no value specified"), reference=message)
+                            break
+                        if type(var) == allowedtype:
+                            await message.channel.purge(limit=var[1])
+                        await message.channel.send((f"invaild action at `{var[0]}`: {var[1]} not in {allowedtype}"), reference=message)
+                        break
 
         await message.delete()
         

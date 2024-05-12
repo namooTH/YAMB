@@ -4,7 +4,7 @@ from discord import app_commands
 #from typing import Optional
 
 
-class speechbubble(commands.Cog):
+class messagefun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -18,4 +18,4 @@ class speechbubble(commands.Cog):
                 await message.channel.send(f'<@{members[len(members)].id}>', reference=message)
 
 async def setup(bot):
-    await bot.add_cog(speechbubble(bot))
+    await bot.add_cog(messagefun(bot))

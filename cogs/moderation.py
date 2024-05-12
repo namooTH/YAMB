@@ -16,7 +16,7 @@ class mod(commands.Cog):
             return
 
         message_content = message.content.lower()
-        if not message_content.startswith(".m ") and not message.author.guild_permissions.manage_messages:
+        if not message_content.startswith(".m ") or not message.author.guild_permissions.manage_messages:
             return
         action = message_content[3:]
         if "," in action:

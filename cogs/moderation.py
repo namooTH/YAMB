@@ -23,8 +23,9 @@ class mod(commands.Cog):
             action = action.split(",")
         else:
             action = [action]
-        actions = []
 
+        errors = []
+        actions = []
         # parser
         for a in action:
             root_action = ""
@@ -45,38 +46,44 @@ class mod(commands.Cog):
                                 break
                             except Exception as e:
                                 additional_info = f"\n```{e}```"
-                                await message.channel.send((f"invaild action at `{rawaction}`{additional_info}"), reference=message)
+                                errors.append((f"invaild action at `{rawaction}`{additional_info}"))
                                 break
                         root_action += rawaction[0]
                 rawaction = rawaction[1:]
             actions.append({root_action: child_action})
 
 
-        # do it
+        # execute
         for d in actions:
             for var in d.items():
                 try:
                     match var[0]:
 
+                        # requires no parameters
                         case "d":
                             messager = await message.channel.fetch_message(message.reference.message_id)
                             await messager.delete()
+
+                        # requires parameters
                         case "p":
                             allowedtype = (int)
                             if isinstance(var[1], allowedtype):
                                 await message.channel.purge(limit=var[1])
                                 continue
-                            await message.channel.send((f"invaild action at `{var[0]}`: {type(var[1])} not in {allowedtype}"), reference=message)
+                            errors.append(f"invaild action at `{var[0]}`: {type(var[1])} not in {allowedtype}")
                             break
 
+                        # what the fuck
                         case _:
-                            await message.channel.send((f"invaild action: `{var[0]}`"), reference=message)
+                            errors.append(f"invaild action: `{var[0]}`")
                             break
 
                 except Exception as e:
-                    await message.channel.send((f"invaild action at `{var[0]}`:\n```{e}```"), reference=message)
+                    errors.append((f"invaild action at `{var[0]}`:\n```{e}```"))
                     break
-
+        
+        errors = ['\n'.join(errors)]
+        await message.channel.send(errors, reference=message)
         await message.delete()
         
 

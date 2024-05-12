@@ -20,7 +20,7 @@ class yourenobody(commands.Cog):
                 while time in self.cooldowns:
                     time += 1
                 self.cooldowns[time] = int(file)
-        self.cooldowns = dict(sorted(self.cooldowns.items()))
+        self.cooldowns = dict(sorted(self.cooldowns.items(), key=lambda item: item[1]))
 
     @tasks.loop(seconds=30)
     async def check_time(self):
@@ -31,7 +31,7 @@ class yourenobody(commands.Cog):
                 usr = guild.get_member(usr_id)
                 try:
                     await usr.remove_roles(get(guild.roles, id=self.stupidrole))
-                except:
+                except:  # noqa: E722
                     pass
                 os.remove(f"data/just_joined/{usr_id}")
                 del self.cooldowns[next(iter(self.cooldowns))]

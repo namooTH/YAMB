@@ -62,9 +62,10 @@ class mod(commands.Cog):
                         messager = await message.channel.fetch_message(message.reference.message_id)
                         await messager.delete()
                     case "p":
-                        allowedtype = [int]
-                        if type(var) in allowedtype:
+                        allowedtype = (int)
+                        if isinstance(var, allowedtype):
                             await message.channel.purge(limit=var[1])
+                            continue
                         await message.channel.send((f"invaild action at `{var[0]}`: {type(var[1])} not in {allowedtype}"), reference=message)
                         break
 

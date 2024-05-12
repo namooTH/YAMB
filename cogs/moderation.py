@@ -44,25 +44,26 @@ class mod(commands.Cog):
                         if is_assigned:
                             try:
                                 child_action = eval(rawaction)
-                                actions.append({root_action: child_action})
                                 rawaction = ""
                                 break
                             except Exception as e:
                                 additional_info = f"\n```{e}```" 
-                        print(f"invaild action at `{rawaction}`{additional_info}")
-                        #await message.channel.send("invaild action whar", reference=message)
+                        await message.channel.send((f"invaild action at `{rawaction}`{additional_info}"), reference=message)
                         break
                 rawaction = rawaction[1:]
+            actions.append({root_action: child_action})
 
+
+        # do it
         for d in actions:
             for var in d.items():
                 match var[0]:
-                    
-                    case "d":
-                        await message.delete()
 
-                        #if len(var) > 1:
-                        #    
+                    case "d":
+                        messager = await message.channel.fetch_message(message.reference.message_id)
+                        await messager.delete()
+
+        await message.delete()
         
 
 async def setup(bot):

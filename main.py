@@ -31,12 +31,7 @@ class bot(commands.Bot):
         await wavelink.Pool.connect(client=self, nodes=[node])
 
     async def parse_args(self, args, prefix):
-        action = args[len(prefix) + 1:]
-        if "," in action:
-            action = action.split(",")
-        else:
-            action = [action]
-
+        action = args[len(prefix) + 1:].split(",")
         errors = []
         actions = []
         for a in action:
@@ -44,7 +39,6 @@ class bot(commands.Bot):
             child_action = None
             is_assigned = False
             rawaction = a
-
             while len(rawaction) > 0:
                 match rawaction[0]:
                     case "=":

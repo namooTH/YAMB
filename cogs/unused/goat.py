@@ -7,8 +7,8 @@ import random
 class goat(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.reddit = praw.Reddit(client_id='-hhVNd85v5NMlKogr4Xq4g',
-        client_secret='9e-F6hhquP-5imeCBsSBfRszCodYHw',
+        self.reddit = praw.Reddit(client_id='real',
+        client_secret='real',
         user_agent='discordbot')
         
     @app_commands.command(name="goat", description="gets random goat")

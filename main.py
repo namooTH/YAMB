@@ -4,6 +4,7 @@ import os
 import logging
 import asyncio
 import wavelink
+import yaml
 
 logging.basicConfig(level=logging.ERROR)
 class bot(commands.Bot):
@@ -28,6 +29,40 @@ class bot(commands.Bot):
         node: wavelink.Node = wavelink.Node(uri='https://lavalink4.alfari.id:443', password='catfein')
         #node: wavelink.Node = wavelink.Node(uri='http://localhost:2333', password='youshallnotpass')
         await wavelink.Pool.connect(client=self, nodes=[node])
+
+    async def parse_args(self, args, prefix):
+        action = args[len(prefix) + 1:]
+        if "," in action:
+            action = action.split(",")
+        else:
+            action = [action]
+
+        errors = []
+        actions = []
+        for a in action:
+            root_action = ""
+            child_action = None
+            is_assigned = False
+            rawaction = a
+
+            while len(rawaction) > 0:
+                match rawaction[0]:
+                    case "=":
+                        is_assigned = True
+                    case _:
+                        additional_info = ""
+                        if is_assigned:
+                            try:
+                                child_action = yaml.safe_load(rawaction)
+                                break
+                            except Exception as e:
+                                additional_info = f"\n```{e}```"
+                                errors.append((f"invaild action at `{rawaction}`{additional_info}"))
+                                break
+                        root_action += rawaction[0]
+                rawaction = rawaction[1:]
+            actions.append({root_action: child_action})
+        return [action, errors]
 bot = bot()
 
 @bot.command()

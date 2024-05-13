@@ -27,6 +27,7 @@ class mod(commands.Cog):
         actions = await self.bot.parse_args(args=message_content,prefix=".m")
         errors = actions[1]
         actions = actions[0]
+        print(actions)
         # execute
         for d in actions:
             for var in d.items():

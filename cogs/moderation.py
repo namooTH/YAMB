@@ -18,7 +18,9 @@ class mod(commands.Cog):
             return
 
         message_content = message.content.lower()
-        if not message_content.startswith(".m") or not message.author.guild_permissions.manage_messages:
+        if not message_content.startswith(".m"):
+            return
+        if not message.author.guild_permissions.manage_messages: # i thought this would improve performance but idk
             return
         actions = await self.bot.parse_args(args=message_content,prefix=".m")
         errors = actions[1]

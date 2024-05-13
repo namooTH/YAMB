@@ -62,7 +62,7 @@ class bot(commands.Bot):
                         root_action += rawaction[0]
                 rawaction = rawaction[1:]
             actions.append({root_action: child_action})
-        return [action, errors]
+        return [actions, errors]
 bot = bot()
 
 @bot.command()

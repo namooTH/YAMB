@@ -38,12 +38,13 @@ class yourenobody(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        role = get(member.guild.roles, id=self.stupidrole)
-        await member.add_roles(role)
-        
-        with open(f"data/just_joined/{member.id}", "x") as file:
-            file.write(str(time.time()))
-            self.cooldowns[time.time()] = int(member.id)
+        if member.guild.id == self.guildid:
+            role = get(member.guild.roles, id=self.stupidrole)
+            await member.add_roles(role)
+            
+            with open(f"data/just_joined/{member.id}", "x") as file:
+                file.write(str(time.time()))
+                self.cooldowns[time.time()] = int(member.id)
 
 async def setup(bot):
     await bot.add_cog(yourenobody(bot))

@@ -10,7 +10,7 @@ class randomquote(commands.Cog):
         connection = self.bot.quote_db
         cur = connection.cursor()
         quote = cur.execute(f"""
-            SELECT * FROM {table} ORDER BY RANDOM() LIMIT 1
+            SELECT * FROM '{table}' ORDER BY RANDOM() LIMIT 1
         """)
         return quote.fetchone()
 

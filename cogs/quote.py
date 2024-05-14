@@ -19,7 +19,7 @@ class randomquote(commands.Cog):
         cur = connection.cursor()
         cur.execute(f"CREATE TABLE IF NOT EXISTS '{table}'(author, quote)")
         cur.execute(f"""
-            INSERT INTO {table} VALUES
+            INSERT INTO '{table}' VALUES
                 (?, ?)
             """, (author, quote))
         connection.commit()
@@ -28,7 +28,7 @@ class randomquote(commands.Cog):
         connection = self.bot.quote_db
         cur = connection.cursor()
         cur.execute(f"""
-            DELETE FROM {table}
+            DELETE FROM '{table}'
             WHERE author = ? AND quote = ?
             """, (author, quote))
         connection.commit()

@@ -17,7 +17,7 @@ class randomquote(commands.Cog):
     async def add_quote_db(self, table, author, quote):
         connection = self.bot.quote_db
         cur = connection.cursor()
-        cur.execute("CREATE TABLE IF NOT EXISTS '?'(author, quote)", (table,))
+        cur.execute("CREATE TABLE IF NOT EXISTS ?(author, quote)", (table,))
         cur.execute("""
             INSERT INTO '?' VALUES
                 ('?', '?')

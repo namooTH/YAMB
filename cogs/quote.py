@@ -66,8 +66,6 @@ class randomquote(commands.Cog):
 
         if message.content == "dq":
             messager = await message.channel.fetch_message(message.reference.message_id)
-            if messager.author != message.author:
-                return await message.channel.send("ur not the author of that message :)", reference=message)
             content = messager.content
             if messager.attachments:
                 content = (f"{content} | {messager.attachments[0].url}")

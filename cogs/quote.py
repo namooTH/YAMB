@@ -7,12 +7,40 @@ import random
 class randomquote(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        
+
+    async def get_random_quote_db(self, table):
+        connection = self.bot.quote_db
+        cur = connection.cursor()
+        quote = cur.execute(f"""
+            SELECT * FROM '{table}' ORDER BY RANDOM() LIMIT 1
+        """)
+        return quote.fetchone()
+
+    async def add_quote_db(self, table, author, quote):
+        connection = self.bot.quote_db
+        cur = connection.cursor()
+        cur.execute(f"CREATE TABLE IF NOT EXISTS '{table}'(author, quote)")
+        cur.execute(f"""
+            INSERT INTO '{table}' VALUES
+                ('{author}', '{quote}')
+            """)
+        connection.commit()
+
+    async def delete_quote_db(self, table, quote):
+        connection = self.bot.quote_db
+        cur = connection.cursor()
+        cur.execute(f"CREATE TABLE IF NOT EXISTS '{table}'(author, quote)")
+        cur.execute(f"""
+            DELETE FROM {table}
+            WHERE quote LIKE '{quote}'
+            """)
+        connection.commit()
+
     @app_commands.command(name="random_quote", description="get random quote")
     async def quote(self, interaction: discord.Interaction):
-        data = json.load(open("data/quote.json"))
-        quote = list(data)[random.randint(0, len(list(data)) - 1)]
-        author = data[quote]
+        data = await self.get_random_quote_db(table=interaction.guild.id)
+        author = data[0]
+        quote = data[1]
         await interaction.response.send_message(f'"{quote}"\n### `- {author}`', allowed_mentions=discord.AllowedMentions.none())
 
     @app_commands.command(name="addquote", description="add a quote")
@@ -20,9 +48,7 @@ class randomquote(commands.Cog):
         if not interaction.user.guild_permissions.manage_messages:
             await interaction.response.send_message("u dont have manage message permission",ephemeral=True)
         else:
-            data = json.load(open("data/quote.json"))
-            data[quote] = by
-            json.dump(data, open("data/quote.json", 'w'))
+            await self.add_quote_db(table=interaction.guild.id, author=by, quote=quote)
             await interaction.response.send_message(f"added {quote} by {by}")
 
     @commands.Cog.listener()
@@ -37,9 +63,7 @@ class randomquote(commands.Cog):
             content = messager.content
             if messager.attachments:
                 content = (f"{content} | {messager.attachments[0].url}")
-            data = json.load(open("data/quote.json"))
-            data[content] = messager.author.name
-            json.dump(data, open("data/quote.json", 'w'))
+            await self.add_quote_db(table=message.guild.id, author=messager.author.name, quote=content)
             embed=discord.Embed(title="Quote Added", description=f'"{content}"\n\nby {messager.author.name}', color=0x57e389)
             await message.channel.send(embed=embed, reference=message)
 
@@ -50,14 +74,7 @@ class randomquote(commands.Cog):
             content = messager.content
             if messager.attachments:
                 content = (f"{content} | {messager.attachments[0].url}")
-            data = json.load(open("data/quote.json"))
-            if data[content] != message.author.name:
-                return await message.channel.send("u dont own that quote", reference=message)
-            try:
-                data.pop(content)
-            except:  # noqa: E722
-                return await message.channel.send("quote doesnt exist in the database", reference=message)
-            json.dump(data, open("data/quote.json", 'w'))
+            await self.delete_quote_db(table=message.guild.id, quote=content)
             embed=discord.Embed(title="Quote Deleted", description=f'{message.author.name} deleted it', color=0x57e389)
             await message.channel.send(embed=embed, reference=message)
 

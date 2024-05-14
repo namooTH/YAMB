@@ -10,8 +10,10 @@ class stat(commands.Cog):
         
     @app_commands.command(name="stat", description="gets the deltafall server stat")
     async def stat(self, interaction: discord.Interaction):
-        quotes = json.load(open("data/quote.json"))
-        embed=discord.Embed(title="Deltatistics", description=f'{len(os.listdir("data/just_joined/"))} people came in from 2 days ago\nThere are {len(quotes)} quote(s) added so far', color=0x57e389)
+        connection = self.bot.quote_db
+        cur = connection.cursor()
+        quotescount = cur.execute(f"SELECT COUNT() FROM '{interaction.guild.id}'").fetchone()[0]
+        embed=discord.Embed(title="Deltatistics", description=f'{len(os.listdir("data/just_joined/"))} people came in from 2 days ago\nThere are {quotescount} quote(s) added so far', color=0x57e389)
         await interaction.response.send_message(embed=embed, allowed_mentions=discord.AllowedMentions.none())
 
 async def setup(bot):

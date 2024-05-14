@@ -6,6 +6,8 @@ import asyncio
 import wavelink
 import yaml
 
+import sqlite3
+
 logging.basicConfig(level=logging.ERROR)
 class bot(commands.Bot):
     def __init__(self):
@@ -16,6 +18,9 @@ class bot(commands.Bot):
         #get bot token from file
         self.token = open("token.yml", "r").readline()
         self.cogsfolder = "cogs"
+
+        # database
+        self.quote_db = sqlite3.connect("quote.db")
 
         #stuff that should not be reset after cog reload
         self.music_queue = {}

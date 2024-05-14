@@ -27,7 +27,6 @@ class randomquote(commands.Cog):
     async def delete_quote_db(self, table, quote):
         connection = self.bot.quote_db
         cur = connection.cursor()
-        cur.execute(f"CREATE TABLE IF NOT EXISTS '{table}'(author, quote)")
         cur.execute(f"""
             DELETE FROM {table}
             WHERE quote LIKE '{quote}'

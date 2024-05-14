@@ -18,19 +18,19 @@ class randomquote(commands.Cog):
         connection = self.bot.quote_db
         cur = connection.cursor()
         cur.execute(f"CREATE TABLE IF NOT EXISTS '{table}'(author, quote)")
-        cur.execute("""
-            INSERT INTO ? VALUES
+        cur.execute(f"""
+            INSERT INTO {table} VALUES
                 (?, ?)
-            """, (table, author, quote))
+            """, (author, quote))
         connection.commit()
 
     async def delete_quote_db(self, table, quote, author):
         connection = self.bot.quote_db
         cur = connection.cursor()
-        cur.execute("""
-            DELETE FROM ?
+        cur.execute(f"""
+            DELETE FROM {table}
             WHERE author = ? AND quote = ?
-            """, (table, author, quote))
+            """, (author, quote))
         connection.commit()
 
     @app_commands.command(name="random_quote", description="get random quote")

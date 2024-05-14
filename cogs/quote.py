@@ -9,28 +9,28 @@ class randomquote(commands.Cog):
     async def get_random_quote_db(self, table):
         connection = self.bot.quote_db
         cur = connection.cursor()
-        quote = cur.execute(f"""
-            SELECT * FROM '{table}' ORDER BY RANDOM() LIMIT 1
-        """)
+        quote = cur.execute("""
+            SELECT * FROM '?' ORDER BY RANDOM() LIMIT 1
+        """, (table))
         return quote.fetchone()
 
     async def add_quote_db(self, table, author, quote):
         connection = self.bot.quote_db
         cur = connection.cursor()
-        cur.execute(f"CREATE TABLE IF NOT EXISTS '{table}'(author, quote)")
-        cur.execute(f"""
-            INSERT INTO '{table}' VALUES
-                ('{author}', '{quote}')
-            """)
+        cur.execute("CREATE TABLE IF NOT EXISTS '?'(author, quote)", (table))
+        cur.execute("""
+            INSERT INTO '?' VALUES
+                ('?', '?')
+            """, (table, author, quote))
         connection.commit()
 
     async def delete_quote_db(self, table, quote, author):
         connection = self.bot.quote_db
         cur = connection.cursor()
-        cur.execute(f"""
-            DELETE FROM '{table}'
-            WHERE author = '{author}' AND quote = '{quote}'
-            """)
+        cur.execute("""
+            DELETE FROM '?'
+            WHERE author = '?' AND quote = '?'
+            """, (table, author, quote))
         connection.commit()
 
     @app_commands.command(name="random_quote", description="get random quote")

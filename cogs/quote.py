@@ -11,13 +11,13 @@ class randomquote(commands.Cog):
         cur = connection.cursor()
         quote = cur.execute("""
             SELECT * FROM '?' ORDER BY RANDOM() LIMIT 1
-        """, (table))
+        """, (table,))
         return quote.fetchone()
 
     async def add_quote_db(self, table, author, quote):
         connection = self.bot.quote_db
         cur = connection.cursor()
-        cur.execute("CREATE TABLE IF NOT EXISTS '?'(author, quote)", (table))
+        cur.execute("CREATE TABLE IF NOT EXISTS '?'(author, quote)", (table,))
         cur.execute("""
             INSERT INTO '?' VALUES
                 ('?', '?')

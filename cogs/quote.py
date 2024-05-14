@@ -9,9 +9,9 @@ class randomquote(commands.Cog):
     async def get_random_quote_db(self, table):
         connection = self.bot.quote_db
         cur = connection.cursor()
-        quote = cur.execute("""
-            SELECT * FROM (?) ORDER BY RANDOM() LIMIT 1
-        """, (table,))
+        quote = cur.execute(f"""
+            SELECT * FROM {table} ORDER BY RANDOM() LIMIT 1
+        """)
         return quote.fetchone()
 
     async def add_quote_db(self, table, author, quote):

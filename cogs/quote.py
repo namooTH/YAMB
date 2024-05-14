@@ -28,7 +28,7 @@ class randomquote(commands.Cog):
         connection = self.bot.quote_db
         cur = connection.cursor()
         cur.execute(f"""
-            DELETE FROM '{table}' WHERE author LIKE '{author} AND WHERE quote LIKE '{quote}'
+            DELETE FROM '{table}' WHERE author LIKE '{author}' AND WHERE quote LIKE '{quote}'
             """)
         connection.commit()
 

@@ -24,11 +24,11 @@ class randomquote(commands.Cog):
             """)
         connection.commit()
 
-    async def delete_quote_db(self, table, quote):
+    async def delete_quote_db(self, table, quote, author):
         connection = self.bot.quote_db
         cur = connection.cursor()
         cur.execute(f"""
-            DELETE FROM {table} WHERE quote LIKE '{quote}'
+            DELETE FROM '{table}' WHERE author LIKE '{author} AND WHERE quote LIKE '{quote}'
             """)
         connection.commit()
 
@@ -68,7 +68,7 @@ class randomquote(commands.Cog):
             content = messager.content
             if messager.attachments:
                 content = (f"{content} | {messager.attachments[0].url}")
-            await self.delete_quote_db(table=message.guild.id, quote=content)
+            await self.delete_quote_db(table=message.guild.id, quote=content, author=messager.author.name)
             embed=discord.Embed(title="Quote Deleted", description=f'{message.author.name} deleted it', color=0x57e389)
             await message.channel.send(embed=embed, reference=message)
 

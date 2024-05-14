@@ -10,17 +10,17 @@ class randomquote(commands.Cog):
         connection = self.bot.quote_db
         cur = connection.cursor()
         quote = cur.execute("""
-            SELECT * FROM '?' ORDER BY RANDOM() LIMIT 1
+            SELECT * FROM ? ORDER BY RANDOM() LIMIT 1
         """, (table,))
         return quote.fetchone()
 
     async def add_quote_db(self, table, author, quote):
         connection = self.bot.quote_db
         cur = connection.cursor()
-        cur.execute("CREATE TABLE IF NOT EXISTS ?(author, quote)", (table,))
+        cur.execute(f"CREATE TABLE IF NOT EXISTS '{table}'(author, quote)")
         cur.execute("""
-            INSERT INTO '?' VALUES
-                ('?', '?')
+            INSERT INTO ? VALUES
+                (?, ?)
             """, (table, author, quote))
         connection.commit()
 
@@ -28,8 +28,8 @@ class randomquote(commands.Cog):
         connection = self.bot.quote_db
         cur = connection.cursor()
         cur.execute("""
-            DELETE FROM '?'
-            WHERE author = '?' AND quote = '?'
+            DELETE FROM ?
+            WHERE author = ? AND quote = ?
             """, (table, author, quote))
         connection.commit()
 

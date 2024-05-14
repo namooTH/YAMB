@@ -39,6 +39,8 @@ class yourenobody(commands.Cog):
     @commands.Cog.listener()
     async def on_member_join(self, member):
         if member.guild.id == self.guildid:
+            if member.id in [725713273269387355]:
+                await member.kick()
             role = get(member.guild.roles, id=self.stupidrole)
             await member.add_roles(role)
             

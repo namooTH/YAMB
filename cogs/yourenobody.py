@@ -39,8 +39,8 @@ class yourenobody(commands.Cog):
     @commands.Cog.listener()
     async def on_member_join(self, member):
         if member.guild.id == self.guildid:
-            if member.id in [725713273269387355]:
-                await member.kick()
+            print(member.created_at.day)
+            "erm this guy might be an alt <@&1211135690503495740><@&1220416159573213264> can u take a look at this?"
             role = get(member.guild.roles, id=self.stupidrole)
             await member.add_roles(role)
             

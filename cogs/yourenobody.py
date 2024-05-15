@@ -1,8 +1,12 @@
+import discord
 from discord.utils import get
 from discord.ext import commands
 import time
 from discord.ext import tasks
 import os
+
+import time
+import datetime
 
 class yourenobody(commands.Cog):
     def __init__(self, bot):
@@ -39,8 +43,9 @@ class yourenobody(commands.Cog):
     @commands.Cog.listener()
     async def on_member_join(self, member):
         if member.guild.id == self.guildid:
-            print(member.created_at.day)
-            "erm this guy might be an alt <@&1211135690503495740><@&1220416159573213264> can u take a look at this?"
+            if time.time() - time.mktime(member.created_at.timetuple()) < 172800:
+                channel = discord.utils.get(member.guild.channels, id=1198291214672347311)
+                await channel.send(f"<@{member.id}> erm this guy might be an alt <@&1211135690503495740><@&1220416159573213264> can u take a look at this?")
             role = get(member.guild.roles, id=self.stupidrole)
             await member.add_roles(role)
             

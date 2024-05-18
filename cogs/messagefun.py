@@ -19,7 +19,7 @@ class messagefun(commands.Cog):
             await message.channel.send(f'<@{members[random.randint(0, len(members) - 1)].id}>', reference=message)
         if message.content.lower() == "nerdify":
             messager = await message.channel.fetch_message(message.reference.message_id)
-            await message.channel.send(f'ermm akshually {messager.content} - 🤓☝️`{messager.author}`', reference=message)
+            await message.channel.send(f'ermm akshually {messager.content} - 🤓☝️`{messager.author}`', reference=message, allowed_mentions=discord.AllowedMentions.none())
 
 async def setup(bot):
     await bot.add_cog(messagefun(bot))

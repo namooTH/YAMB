@@ -17,6 +17,9 @@ class messagefun(commands.Cog):
         if "@someone" in message.content.lower():
             members = message.guild.members
             await message.channel.send(f'<@{members[random.randint(0, len(members) - 1)].id}>', reference=message)
+        if message.content.lower() == "nerdify":
+            messager = await message.channel.fetch_message(message.reference.message_id)
+            await message.channel.send(f'ermm acukally {messager.content} - 🤓 `{messager.author}`', reference=message)
 
 async def setup(bot):
     await bot.add_cog(messagefun(bot))

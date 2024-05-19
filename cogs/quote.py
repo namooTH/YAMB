@@ -38,7 +38,7 @@ class randomquote(commands.Cog):
         data = await self.get_random_quote_db(table=interaction.guild.id)
         author = data[0]
         quote = data[1]
-        await interaction.response.send_message(f'"{quote}"\n### `- {author}`', allowed_mentions=discord.AllowedMentions.none())
+        await interaction.response.send_message(f'{quote}\n### `- {author}`', allowed_mentions=discord.AllowedMentions.none())
 
     @app_commands.command(name="addquote", description="add a quote")
     async def addquote(self, interaction: discord.Interaction, quote: str, by: str):
@@ -62,10 +62,10 @@ class randomquote(commands.Cog):
                 content = (f"{content} | {messager.attachments[0].url}")
             if len(message.content) > 100:
                 content = content[:100]
-                embed=discord.Embed(title="Quote Added?", description=f'"{content}..."\n\nby {messager.author.name}', color=0x57e389)
+                embed=discord.Embed(title="Quote Added?", description=f'{content}...\n\nby {messager.author.name}', color=0x57e389)
                 return await message.channel.send(embed=embed, reference=message)
             await self.add_quote_db(table=message.guild.id, author=messager.author.name, quote=content)
-            embed=discord.Embed(title="Quote Added", description=f'"{content}"\n\nby {messager.author.name}', color=0x57e389)
+            embed=discord.Embed(title="Quote Added", description=f'{content}\n\nby {messager.author.name}', color=0x57e389)
             await message.channel.send(embed=embed, reference=message)
 
         if message.content == "dq":

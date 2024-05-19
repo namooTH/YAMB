@@ -59,9 +59,9 @@ class randomquote(commands.Cog):
                 return await message.channel.send("its just an empty text you idiot", reference=message)
             content = messager.content
             if messager.attachments:
-                content = (f"{content} | {messager.attachments[0].url}")
+                content = (f"{messager.content} | {messager.attachments[0].url}")
             if len(messager.content) > 100:
-                content = (f"{content[:100]} | {messager.attachments[0].url}")
+                content = (f"{messager.content[:100]} | {messager.attachments[0].url}")
                 embed=discord.Embed(title="Quote Added?", description=f'{content}...\n\nby {messager.author.name}', color=0x57e389)
                 return await message.channel.send(embed=embed, reference=message)
             await self.add_quote_db(table=message.guild.id, author=messager.author.name, quote=content)

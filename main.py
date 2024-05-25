@@ -31,8 +31,8 @@ class bot(commands.Bot):
                 await self.load_extension(f"{self.cogsfolder}.{file[:-3]}")
 
     async def setupwavelink(self):
-        node: wavelink.Node = wavelink.Node(uri='https://lavalink4.alfari.id:443', password='catfein')
-        #node: wavelink.Node = wavelink.Node(uri='http://localhost:2333', password='youshallnotpass')
+        #node: wavelink.Node = wavelink.Node(uri='https://lavalink4.alfari.id:443', password='catfein')
+        node: wavelink.Node = wavelink.Node(uri='http://localhost:2333', password='youshallnotpass')
         await wavelink.Pool.connect(client=self, nodes=[node])
 
     async def parse_args(self, args, prefix):

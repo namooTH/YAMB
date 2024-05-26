@@ -55,6 +55,7 @@ class mod(commands.Cog):
 
                         # requires parameters
                         case "p" | "purge":
+                            allowedtype = [int]
                             match type(var[1]):
                                 case builtins.int:
                                     await self.purge(channel=message.channel, number=var[1])
@@ -63,6 +64,7 @@ class mod(commands.Cog):
 
                         case "t" | "timeout":
                             messager = await message.channel.fetch_message(message.reference.message_id)
+                            allowedtype = [list, str]
                             match type(var[1]):
                                 case builtins.list:
                                     await self.timeout(user=messager.author, rawlength=var[1][0], reason=var[1][1])

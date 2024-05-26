@@ -36,7 +36,7 @@ class bot(commands.Bot):
         await wavelink.Pool.connect(client=self, nodes=[node])
 
     async def parse_args(self, args, prefix):
-        action = args[len(prefix) + 1:].split(" ")
+        action = args[len(prefix) + 1:].split(">")
         errors = []
         actions = []
         for a in action:

@@ -25,7 +25,8 @@ class mod(commands.Cog):
         number = int(number)    
         unit = unit_map.get(length_type)
         if unit == None: unit = length_type
-        await user.timeout(until=(timedelta(**{unit: number})), reason=reason)
+        td = timedelta(**{unit: number})
+        await user.timeout(until=td, reason=reason)
 
     @commands.Cog.listener()
     async def on_message(self, message):

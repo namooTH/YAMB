@@ -65,7 +65,7 @@ class mod(commands.Cog):
                             messager = await message.channel.fetch_message(message.reference.message_id)
                             match type(var[1]):
                                 case builtins.list:
-                                    await self.timeout(user=messager.author, rawlength=var[0][1], reason=var[1][1])
+                                    await self.timeout(user=messager.author, rawlength=var[1][0], reason=var[1][1])
                                 case builtins.str:
                                     await self.timeout(user=messager.author, rawlength=var[1])
                                 case _:

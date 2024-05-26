@@ -62,9 +62,13 @@ class mod(commands.Cog):
 
                         case "t" | "timeout":
                             messager = await message.channel.fetch_message(message.reference.message_id)
-                            allowedtype = (str)
+                            allowedtype = (str, list)
                             if isinstance(var[1], allowedtype):
-                                await self.timeout(user=messager.author, rawlength=var[1])
+                                match type(var[1]):
+                                    case list:
+                                        await self.timeout(user=messager.author, rawlength=var[0][1], reason=var[1][1])
+                                    case str:
+                                        await self.timeout(user=messager.author, rawlength=var[1])
                             else:
                                 errors.append(f"invaild action at `{var[0]}`: {type(var[1])} not in {allowedtype}")
 

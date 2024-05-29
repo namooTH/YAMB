@@ -25,7 +25,7 @@ class baby(commands.Cog):
 
     @app_commands.command(name="make_baby", description="baby")
     async def baby(self, interaction: discord.Interaction, first_person: str, second_person: str):
-        babyname = (first_person[:int(len(first_person) / 2)] + first_person[int(len(second_person) / 2):])
+        babyname = (first_person[:int(len(first_person) / 2)] + second_person[int(len(second_person) / 2):])
 
         allchances = 0
         chances = 0

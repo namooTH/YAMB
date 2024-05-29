@@ -12,7 +12,10 @@ class stat(commands.Cog):
     async def stat(self, interaction: discord.Interaction):
         connection = self.bot.quote_db
         cur = connection.cursor()
-        quotescount = cur.execute(f"SELECT COUNT() FROM '{interaction.guild.id}'").fetchone()[0]
+        try:
+            quotescount = cur.execute(f"SELECT COUNT() FROM '{interaction.guild.id}'").fetchone()[0]
+        except:
+            quotescount = "Unknown"
         embed=discord.Embed(title="Deltatistics", description=f'{len(os.listdir("data/just_joined/"))} people came in from 2 days ago\nThere are {quotescount} quote(s) added so far', color=0x57e389)
         await interaction.response.send_message(embed=embed, allowed_mentions=discord.AllowedMentions.none())
 

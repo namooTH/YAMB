@@ -61,20 +61,22 @@ class randomquote(commands.Cog):
                 return await message.channel.send("its just an empty text you idiot", reference=message)
             content = messager.content
             display_content = messager.content
-            if len(messager.content) > 100:
-                display_content = f'{messager.content[:100]}...'
+            if len(messager.content) > 100: display_content = f'{messager.content[:100]}...'
             if messager.attachments:
                 content = (f"{messager.content} | {messager.attachments[0].url}")
-                display_content = (f"{messager.content[:100]}... | {messager.attachments[0].url}")
+                display_content = (f"{display_content} | {messager.attachments[0].url}")
             quote_id = await self.add_quote_db(table=message.guild.id, author=messager.author.name, quote=content)
             embed=discord.Embed(title="Quote Added", description=f'{display_content}\n\nby {messager.author.name}', color=0x57e389)
             await message.channel.send(content=f"`id: {quote_id}`", embed=embed, reference=message)
 
         if message.content == "dq":
+            if messager.author == self.bot.user:
+                return
             messager = await message.channel.fetch_message(message.reference.message_id)
             content = messager.content
-            await self.delete_quote_db(table=message.guild.id, id=(re.findall("id:\s*(\d+)", content)[0]))
-            embed=discord.Embed(title="Quote Deleted", description=f'{message.author.name} deleted it', color=0x57e389)
+            id = re.findall("id:\s*(\d+)", content)[0]
+            await self.delete_quote_db(table=message.guild.id, id=(id))
+            embed=discord.Embed(title="Quote Deleted", description=f'Deleted quote id `{id}`', color=0x57e389)
             await message.channel.send(embed=embed, reference=message)
 
 async def setup(bot):

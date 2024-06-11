@@ -73,7 +73,6 @@ class randomquote(commands.Cog):
         if message.content == "dq":
             messager = await message.channel.fetch_message(message.reference.message_id)
             content = messager.content
-            await message.channel.send
             await self.delete_quote_db(table=message.guild.id, id=(re.findall("id:\s*(\d+)", content)[0]))
             embed=discord.Embed(title="Quote Deleted", description=f'{message.author.name} deleted it', color=0x57e389)
             await message.channel.send(embed=embed, reference=message)

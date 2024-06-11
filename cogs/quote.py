@@ -67,9 +67,8 @@ class randomquote(commands.Cog):
                 content = (f"{messager.content} | {messager.attachments[0].url}")
                 display_content = (f"{messager.content[:100]}... | {messager.attachments[0].url}")
             quote_id = await self.add_quote_db(table=message.guild.id, author=messager.author.name, quote=content)
-            print(quote_id)
             embed=discord.Embed(title="Quote Added", description=f'{display_content}\n\nby {messager.author.name}', color=0x57e389)
-            await message.channel.send(embed=embed, reference=message)
+            await message.channel.send(text=f"`id: {quote_id}`", embed=embed, reference=message)
 
         if message.content == "dq":
             messager = await message.channel.fetch_message(message.reference.message_id)

@@ -10,7 +10,7 @@ class randomquote(commands.Cog):
         connection = self.bot.quote_db
         cur = connection.cursor()
         quote = cur.execute(f"""
-            SELECT * FROM '{table}' ORDER BY RANDOM() LIMIT 1
+            SELECT *, ROWID FROM '{table}' ORDER BY RANDOM() LIMIT 1
         """)
         return quote.fetchone()
 
@@ -37,10 +37,9 @@ class randomquote(commands.Cog):
     @app_commands.command(name="random_quote", description="get random quote")
     async def quote(self, interaction: discord.Interaction):
         data = await self.get_random_quote_db(table=interaction.guild.id)
-        print(data)
         author = data[0]
         quote = data[1]
-        await interaction.response.send_message(f'{quote}\n### `- {author}`', allowed_mentions=discord.AllowedMentions.none())
+        await interaction.response.send_message(f'{quote}\n### `- {author} | id: {data[-1]}`', allowed_mentions=discord.AllowedMentions.none())
 
     @app_commands.command(name="addquote", description="add a quote")
     async def addquote(self, interaction: discord.Interaction, quote: str, by: str):

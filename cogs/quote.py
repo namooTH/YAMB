@@ -26,13 +26,13 @@ class randomquote(commands.Cog):
         connection.commit()
         return cur.lastrowid
 
-    async def delete_quote_db(self, table, quote, author):
+    async def delete_quote_db(self, table, id):
         connection = self.bot.quote_db
         cur = connection.cursor()
         cur.execute(f"""
             DELETE FROM '{table}'
-            WHERE author = ? AND quote = ?
-            """, (author, quote))
+            WHERE ROWID = ?
+            """, (id))
         connection.commit()
 
     @app_commands.command(name="random_quote", description="get random quote")
@@ -73,12 +73,10 @@ class randomquote(commands.Cog):
         if message.content == "dq":
             messager = await message.channel.fetch_message(message.reference.message_id)
             content = messager.content
-            await message.channel.send(re.findall("id:\s*(\d+)", content))
-            #if messager.attachments:
-            #    content = (f"{content} | {messager.attachments[0].url}")
-            #await self.delete_quote_db(table=message.guild.id, quote=content, author=messager.author.name)
-            #embed=discord.Embed(title="Quote Deleted", description=f'{message.author.name} deleted it', color=0x57e389)
-            #await message.channel.send(embed=embed, reference=message)
+            await message.channel.send
+            await self.delete_quote_db(table=message.guild.id, id=(re.findall("id:\s*(\d+)", content)[0]))
+            embed=discord.Embed(title="Quote Deleted", description=f'{message.author.name} deleted it', color=0x57e389)
+            await message.channel.send(embed=embed, reference=message)
 
 async def setup(bot):
     await bot.add_cog(randomquote(bot))

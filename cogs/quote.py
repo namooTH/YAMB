@@ -70,7 +70,7 @@ class randomquote(commands.Cog):
             await message.channel.send(content=f"`id: {quote_id}`", embed=embed, reference=message)
 
         if message.content == "dq":
-            if messager.author == self.bot.user:
+            if messager.author != self.bot.user:
                 return
             messager = await message.channel.fetch_message(message.reference.message_id)
             content = messager.content

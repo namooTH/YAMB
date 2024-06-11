@@ -32,7 +32,7 @@ class randomquote(commands.Cog):
         cur.execute(f"""
             DELETE FROM '{table}'
             WHERE ROWID = ?
-            """, (id))
+            """, (id,))
         connection.commit()
 
     @app_commands.command(name="random_quote", description="get random quote")

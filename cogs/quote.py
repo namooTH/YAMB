@@ -70,9 +70,9 @@ class randomquote(commands.Cog):
             await message.channel.send(content=f"`id: {quote_id}`", embed=embed, reference=message)
 
         if message.content == "dq":
+            messager = await message.channel.fetch_message(message.reference.message_id)
             if messager.author != self.bot.user:
                 return
-            messager = await message.channel.fetch_message(message.reference.message_id)
             content = messager.content
             id = re.findall("id:\s*(\d+)", content)[0]
             await self.delete_quote_db(table=message.guild.id, id=(id))

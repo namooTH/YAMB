@@ -12,7 +12,7 @@ class randomquote(commands.Cog):
         connection = self.bot.quote_db
         cur = connection.cursor()
         quote = cur.execute(f"""
-            SELECT * FROM '{table}' WHERE ROWID = {id}
+            SELECT *, ROWID FROM '{table}' WHERE ROWID = {id}
         """) 
         return quote.fetchone()
 

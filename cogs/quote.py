@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
+import re
 
 class randomquote(commands.Cog):
     def __init__(self, bot):
@@ -72,11 +73,12 @@ class randomquote(commands.Cog):
         if message.content == "dq":
             messager = await message.channel.fetch_message(message.reference.message_id)
             content = messager.content
-            if messager.attachments:
-                content = (f"{content} | {messager.attachments[0].url}")
-            await self.delete_quote_db(table=message.guild.id, quote=content, author=messager.author.name)
-            embed=discord.Embed(title="Quote Deleted", description=f'{message.author.name} deleted it', color=0x57e389)
-            await message.channel.send(embed=embed, reference=message)
+            await message.channel.send(re.findall("id:\s*(\d+)", content))
+            #if messager.attachments:
+            #    content = (f"{content} | {messager.attachments[0].url}")
+            #await self.delete_quote_db(table=message.guild.id, quote=content, author=messager.author.name)
+            #embed=discord.Embed(title="Quote Deleted", description=f'{message.author.name} deleted it', color=0x57e389)
+            #await message.channel.send(embed=embed, reference=message)
 
 async def setup(bot):
     await bot.add_cog(randomquote(bot))

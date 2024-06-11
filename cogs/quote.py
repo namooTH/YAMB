@@ -23,6 +23,7 @@ class randomquote(commands.Cog):
                 (?, ?)
             """, (author, quote))
         connection.commit()
+        return cur.lastrowid
 
     async def delete_quote_db(self, table, quote, author):
         connection = self.bot.quote_db
@@ -36,6 +37,7 @@ class randomquote(commands.Cog):
     @app_commands.command(name="random_quote", description="get random quote")
     async def quote(self, interaction: discord.Interaction):
         data = await self.get_random_quote_db(table=interaction.guild.id)
+        print(data)
         author = data[0]
         quote = data[1]
         await interaction.response.send_message(f'{quote}\n### `- {author}`', allowed_mentions=discord.AllowedMentions.none())

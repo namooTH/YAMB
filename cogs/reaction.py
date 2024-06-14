@@ -8,7 +8,7 @@ class reaction(commands.Cog):
         self.bot = bot
 
     @commands.Cog.listener()
-    async def on_reaction_add(reaction, user):
+    async def on_reaction_add(self, reaction, user):
         channel = reaction.message.channel
         if channel.id == 1198291214672347311:
             await channel.send('{} has added {} to the the message {}'.format(user.name, reaction.emoji, reaction.message.content))

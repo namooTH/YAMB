@@ -37,7 +37,7 @@ class randomquote(commands.Cog):
 
     async def delete_quote_db(self, table, id):
         connection = self.bot.quote_db
-        cur = connection.cursor()
+        cur = connection.cursor()/
         cur.execute(f"""
             DELETE FROM '{table}'
             WHERE ROWID = ?
@@ -82,7 +82,7 @@ class randomquote(commands.Cog):
             embed=discord.Embed(title="Quote Added", description=f'{display_content}\n\nby {messager.author.name}', color=0x57e389)
             await message.channel.send(content=f"`id: {quote_id}`", embed=embed, reference=message)
 
-        if message.content == "dq":
+        if message.content.lower() == "dq":
             messager = await message.channel.fetch_message(message.reference.message_id)
             if messager.author != self.bot.user:
                 return

@@ -37,7 +37,7 @@ class randomquote(commands.Cog):
 
     async def delete_quote_db(self, table, id):
         connection = self.bot.quote_db
-        cur = connection.cursor()/
+        cur = connection.cursor()
         cur.execute(f"""
             DELETE FROM '{table}'
             WHERE ROWID = ?

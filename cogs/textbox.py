@@ -53,7 +53,7 @@ class textbox(commands.Cog):
 
         if custom_background:
             img = custom_background
-            img.thumbnail((mask.size[0] * 2,mask.size[1] * 2), resample=Image.Resampling.NEAREST)
+            img.thumbnail((mask.size[0] * 2,mask.size[1] * 2), resample=Image.NEAREST)
             img = img.filter(ImageFilter.GaussianBlur(5))
             width, height = img.size
             left = (width - mask.size[0])/2
@@ -74,7 +74,7 @@ class textbox(commands.Cog):
         start_time = time.time()
         # draw port if exists
         if avatar:
-            avatar.thumbnail((134,134), resample=Image.Resampling.NEAREST)
+            avatar.thumbnail((134,134), resample=Image.NEAREST)
             middle_img_y = int((img.size[1] - avatar.size[1]) / 2)
             port_x_pos = int((134 - avatar.size[0]) / 2) + x_offset
             try:

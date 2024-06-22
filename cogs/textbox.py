@@ -10,7 +10,6 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 from PIL import ImageFilter 
-from pilmoji import Pilmoji
 
 import math
 import re
@@ -182,8 +181,7 @@ class textbox(commands.Cog):
                 return [discord.File(fp=image_binary, filename='image.gif'), debug]
         else:
             if not custom_background:
-                with Pilmoji(img) as pilmoji:
-                    pilmoji.text((textpos, 16 + y_offset), text.strip(), (255, 255, 255), font, spacing=10, emoji_scale_factor=1, emoji_position_offset=(0, -2))
+                draw.text((textpos, 30),text,(255,255,255),font=font, spacing=10)
             else:
                 draw = ImageDraw.Draw(img)
                 draw.text((textpos + 2, 30 + 2),text,(0,0,0),font=font, spacing=10)

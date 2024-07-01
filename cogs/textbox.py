@@ -132,6 +132,7 @@ class textbox(commands.Cog):
                         nextline = text[-num:][1:] + nextline
                         text = text[:-num]
                         break
+            text.strip()
             lines.append(text)
             text = nextline
 

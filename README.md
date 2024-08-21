@@ -1,4 +1,7 @@
-# deltafall-bot
+# EVERYTHING IS FIXED! WHO CHEERED???
+
+No but seriously, do NOT give me all of the credit. I unfortunately had to use some AI since i dont understand all of pythons syntax anymore.
+Mostly because i always coded in py2, and only now started to code in py3. I deeply apologize for the usage of google´s gemini.
 
 [![discord.py](https://img.shields.io/badge/discord.py-white?logo=discord&style=flat-square)](https://github.com/Rapptz/discord.py)
 [![deltafall](https://img.shields.io/badge/deltafall-white?logo=discord&style=flat-square)](https://discord.gg/hT3HtPSwth)
@@ -23,5 +26,3 @@ A bot used by the Deltafall discord server.
 
 Originally coded by [namooTH](https://github.com/namooTH). I (the repo "creator") am now trying to fix some previously unknown issues.
 
-TODO: 
-Fix issue where the bot crashes upon entering wingdings. (DFBERR-1-19824)

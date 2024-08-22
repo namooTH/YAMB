@@ -1,8 +1,3 @@
-# EVERYTHING IS FIXED! WHO CHEERED???
-
-No but seriously, do NOT give me all of the credit. I unfortunately had to use some AI since i dont understand all of pythons syntax anymore.
-Mostly because i always coded in py2, and only now started to code in py3. I deeply apologize for the usage of google´s gemini.
-
 [![discord.py](https://img.shields.io/badge/discord.py-white?logo=discord&style=flat-square)](https://github.com/Rapptz/discord.py)
 [![deltafall](https://img.shields.io/badge/deltafall-white?logo=discord&style=flat-square)](https://discord.gg/hT3HtPSwth)
 ![GitHub top language](https://img.shields.io/github/languages/top/45-razrblds/YAMB-fixed?style=flat-square&labelColor=white&color=white)
@@ -24,5 +19,4 @@ A bot used by the Deltafall discord server.
 | **textbox**    | Creates a highly customizable Undertale/Deltarune style textbox.                                     | `text:` The body text of the textbox<br>`name:` The displayed name on the textbox<br>`asterisk:` Adds an asterisk to the start of the textbox, makes it more authentic to some UT characters<br>`portrait:` Allows you to pick between a collection of UT/DR characters for the textbox<br>`animated:` Animates the textbox into a GIF to replicate a UT/DR textbox<br>`custom_portrait:` Allows you to add a custom image to the textbox |
 
 
-Originally coded by [namooTH](https://github.com/namooTH). I (the repo "creator") am now trying to fix some previously unknown issues.
 

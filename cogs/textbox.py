@@ -112,7 +112,7 @@ class textbox(commands.Cog):
         # this might helps preventing the breaking state of the bot even more
         timeout = time.time() + 5
 
-        while true:
+        while True:
             if len(lines) >= 3: break
             if time.time() > timeout: break
 

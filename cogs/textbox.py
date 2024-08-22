@@ -31,13 +31,11 @@ class textbox(commands.Cog):
             text = text[:char_limit]
 
         # setup stuff                
-        if fontfile:
-            fontfile = f"data/fonts/{fontfile}"
-        else:
-            fontfile = "data/fonts/determination-mono.ttf"
+        if fontfile: fontfile = f"data/fonts/{fontfile}"
+        else: fontfile = "data/fonts/determination-mono.ttf"
 
-        if asterisk:
-            text = "* " + text
+        # might want to change this later...
+        if asterisk: text = "* " + text
 
         start_time = time.time()
         # border & background
@@ -110,10 +108,14 @@ class textbox(commands.Cog):
 
         # autowrap text (word mode) (also math jumpscare)
 
-        while True:
-            if len(lines) >= 3:
-                break
-            
+        # if this loop is taking more than 5s then just break
+        # this might helps preventing the breaking state of the bot even more
+        timeout = time.time() + 5
+
+        while true:
+            if len(lines) >= 3: break
+            if time.time() > timeout: break
+
             textlength = font.getlength(text)
             if textlength < textposlimit - textpos:
                 lines.append(text)
@@ -123,9 +125,13 @@ class textbox(commands.Cog):
 
             # if text is too long or too short
             while cutted > textposlimit - textpos:
+                if time.time() > timeout: break
+
                 length -= 1
                 cutted = font.getlength(text[:int(len(text) - length)])
             while (cutted - (textposlimit - textpos)) < -100:
+                if time.time() > timeout: break
+
                 length += 1
                 cutted = font.getlength(text[:int(len(text) - length)])
             nextline = text[int(len(text) - length):]
@@ -194,7 +200,6 @@ class textbox(commands.Cog):
                 draw = ImageDraw.Draw(img)
                 draw.text((textpos + 2, 30 + 2),text,(0,0,0),font=font, spacing=10)
                 draw.text((textpos, 30),text,(255,255,255),font=font, spacing=10)
-            #draw.text(,text,(255,255,255),font=font,spacing=10)
             with BytesIO() as image_binary:
                 img.save(image_binary, 'PNG')
                 image_binary.seek(0)

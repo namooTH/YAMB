@@ -4,3 +4,6 @@ pet-pet-gif
 pilmoji
 python-urbandict
 wavelink
+psutil
+pyyaml
+colorama

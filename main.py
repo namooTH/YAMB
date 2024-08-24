@@ -7,6 +7,7 @@ import yaml
 import sqlite3
 import psutil
 import sys
+import wavelink
 from colorama import Back, init, Fore, Style
 
 # Initialize colorama
@@ -115,6 +116,10 @@ class Bot(commands.Bot):
             actions.append({root_action: child_action})
         return [actions, errors]
 
+    async def setupwavelink(self):
+        node: wavelink.Node = wavelink.Node(uri='http://localhost:2333', password='youshallnotpass')
+        await wavelink.Pool.connect(client=self, nodes=[node])
+
     async def initialization_check(self):
         logger.info("Starting initialization check...")
 
@@ -182,6 +187,7 @@ async def main():
         await bot.initialization_check()  # Perform the initialization check
         asyncio.create_task(bot.periodic_system_check())  # Start the periodic system check
         await bot.load_extensions()
+        await bot.setupwavelink()
         await bot.start(bot.token)
 
 asyncio.run(main())

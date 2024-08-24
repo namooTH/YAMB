@@ -7,3 +7,4 @@ wavelink
 psutil
 pyyaml
 colorama
+praw

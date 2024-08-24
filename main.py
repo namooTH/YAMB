@@ -73,14 +73,10 @@ class Bot(commands.Bot):
         log_credits("This is made for YAMB and YAMB only. If you need a version for yourself, ask the contributor.")
         logger.info("Loading cogs...")
 
-        tasks = []
         for file in os.listdir(self.cogsfolder):
             if file.endswith(".py"):
                 cog_name = f"{self.cogsfolder}.{file[:-3]}"
-                tasks.append(self._load_cog(cog_name))
-
-        # Run tasks concurrently
-        await asyncio.gather(*tasks)
+                await self._load_cog(cog_name)
 
         logger.info("All cogs loaded successfully.")
 

@@ -80,17 +80,18 @@ class ReminderCommand(commands.Cog):
 
     group = app_commands.Group(name="remind", description="remind you")
 
-    @group.command(name="create", description="make reminder")
+    @group.command(name="create", description="make reminder (input in UTC)")
     @app_commands.allowed_installs(guilds=True, users=False)
     async def create_reminder(self, interaction: discord.Interaction, on: str, message: Optional[str]):
+        parsed_on: datetime = dateparser.parse(on, settings={'PREFER_DATES_FROM': 'future', 'TIMEZONE': 'UTC', 'RETURN_AS_TIMEZONE_AWARE': True, 'RELATIVE_BASE': interaction.created_at})
+        if parsed_on is None:
+            return await interaction.response.send_message(f"Could not understand the date/time `{on}`. Please try a different format (for example `YYYY-MM-DD` or `in 1 day`).", ephemeral=True)
+        if parsed_on < interaction.created_at:
+                return await interaction.response.send_message(f"`{on}` is in the past", ephemeral=True)
         await interaction.response.defer()
-        on: datetime = dateparser.parse(on)
-        now: datetime = datetime.now(on.tzinfo).timestamp()
-        if on.timestamp() < now:
-            on += timedelta(days=1)
         reminder = Reminder(interaction.channel.id, interaction.user.id, message)
-        await self.scheduler.add_payload(interaction.guild.id, on, reminder)
-        await interaction.followup.send(f"Reminder{f": {message} " if message else " "}going off <t:{str(int(on.timestamp()))}:R>.", allowed_mentions=discord.AllowedMentions(users=[interaction.user], everyone=False, roles=False))
+        await self.scheduler.add_payload(interaction.guild.id, parsed_on, reminder)
+        await interaction.followup.send(f"Reminder{f": {message} " if message else " "}going off <t:{str(int(parsed_on.timestamp()))}:R>.", allowed_mentions=discord.AllowedMentions(users=[interaction.user], everyone=False, roles=False))
 
     @group.command(name="list", description="lists reminders")
     @app_commands.allowed_installs(guilds=True, users=False)
